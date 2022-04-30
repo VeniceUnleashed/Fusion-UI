@@ -1,0 +1,34 @@
+.top-actions {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 4.259259259259259vh; // 46px;
+    z-index: 998;
+
+    &.left {
+        left: 4.62962962962963vh; // 50px;
+    }
+
+    &.right {
+        right: 4.62962962962963vh; // 50px;
+    }
+
+    li {
+        float: left;
+        margin-right: 2.314814814814815vh; // 25px;
+
+        a {
+            opacity: 0.3;
+            transition: opacity 150ms ease-in-out;
+
+            &:hover {
+                opacity: 1.0;
+            }
+
+            .material-icons {
+                font-size: 3.148148148148148vh; // 34px;
+            }
+        }
+    }
+}

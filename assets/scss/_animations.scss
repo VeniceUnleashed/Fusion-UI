@@ -1,0 +1,34 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-reverse {
+    0% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes background-animation {
+    0% { background-position: 20% 10%; }
+    25% { background-position: 27% 0; }
+    50% { background-position: 32% 6%; }
+    75% { background-position: 27% 0; }
+    100% { background-position: 20% 10%; }
+}
+
+@keyframes credits {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: -250%;
+    }
+}

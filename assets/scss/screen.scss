@@ -1,0 +1,153 @@
+@import "reset";
+@import "fonts";
+@import "animations";
+@import "forms";
+
+$color-console-red: #da857b;
+$color-console-blue: #61d2ff;
+$color-console-yellow: #ffe835;
+$color-accent-red: #e14d43;
+$color-error-red: rgba(255, 0, 0, 0.8);
+
+* {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+body, html {
+    color: #fff;
+    font-family: 'Blinker';
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+body, html, #root {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    //animation: background-animation 30s ease-in-out infinite;
+}
+
+a {
+    color: #fff;
+}
+
+#ui-app {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#animated-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    background: #000;
+}
+
+#app-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    backdrop-filter: blur(0);
+    background: rgba(0, 0, 0, 0.0);
+    overflow: hidden;
+
+    &.has-blur {
+        transform: translate(0%, 0%);
+        backdrop-filter: blur(20px);
+        will-change: top;
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
+
+.content-wrapper {
+    display: block;
+    height: 100%;
+    width: 133.333333333333vh;
+    position: relative;
+    margin: -9.25925925925926vh auto 0;
+    z-index: 1;
+    padding: 9.25925925925926vh 2.777777777777778vh; // 100px 30px
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#build-info {
+    position: absolute;
+    bottom: 4.62962962962963vh; // 50px
+    right: 4.62962962962963vh; // 50px
+    font-size: 1.481481481481481vh; // 16px
+    font-weight: 300;
+    opacity: 0.3;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.loading-indicator {
+    border-radius: 51%;
+    width: 3.703703703703704vh; // 40px
+    height: 3.703703703703704vh; // 40px
+    border: 0.2777777777777778vh solid rgba(255, 255, 255, 0.2); // 3px
+    border-top-color: #fff;
+    animation: spin 1s infinite linear;
+    display: inline-block;
+
+    &--double {
+        border-style: double;
+        border-width: 0.2777777777777778vh; // 3px
+    }
+}
+
+#watermark {
+    position: absolute;
+    top: 3.703703703703704vh; // 40px
+    right: 3.703703703703704vh; // 40px
+    z-index: 99999;
+    opacity: 0.2;
+    text-align: center;
+
+    img {
+        height: 4.62962962962963vh; // 50px
+        display: block;
+    }
+
+    span {
+        margin-top: 0.5555555555555556vh; // 6px
+        display: block;
+        font-weight: 300;
+        font-size: 1.851851851851852vh; // 20px
+    }
+}
+
+@import "buttons";
+@import "progress";
+@import "popup";
+@import "login";
+@import "updates";
+@import "origin-link";
+@import "top-menu";
+@import "main-menu";
+@import "server-browser";
+@import "soldier-listing";
+@import "credits";
+@import "top-actions";
+@import "frame-hell";
+@import "game-console";
+@import "settings";
+@import "global-notice";

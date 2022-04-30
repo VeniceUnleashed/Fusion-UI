@@ -1,0 +1,51 @@
+{
+  "name": "fusion-ui",
+  "version": "1.0.0",
+  "description": "Fusion UI",
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "express": "^4.14.1",
+    "file-loader": "^6.0.0",
+    "history": "^5.0.0",
+    "node-sass": "^6.0.1",
+    "preloader": "^4.0.3",
+    "prop-types": "^15.7.2",
+    "rc-slider": "^9.3.0",
+    "react": "^16.13.1",
+    "react-circular-progressbar": "^2.0.3",
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.12.21",
+    "react-redux": "^7.2.0",
+    "react-router": "^3.2.6",
+    "react-select": "^3.1.0",
+    "react-virtuoso": "^0.20.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "sass-loader": "^10.2.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "perfect-scrollbar": "1.4.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --open --mode development",
+    "webpack": "webpack --mode production"
+  },
+  "private": true,
+  "author": "Orfeas Zafeiris",
+  "contributors": [
+    {
+      "name": "Orfeas Zafeiris"
+    }
+  ],
+  "engines": {
+    "node": ">=4.2.0"
+  }
+}

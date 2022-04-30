@@ -1,0 +1,66 @@
+.update-indicator {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.7407407407407407vh; // 8px;
+  overflow: hidden;
+  width: 3.322222222222222vh; // 35.88px;
+  height: 3.322222222222222vh; // 35.88px;
+  transition: all 350ms ease-in-out;
+  position: relative;
+}
+
+.update-indicator-container {
+  width: 14.81481481481481vh; // 160px;
+  height: 3.322222222222222vh; // 35.88px;
+  position: absolute;
+  box-sizing: border-box;
+  padding: 0.3703703703703704vh; // 4px;
+  right: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.update-indicator .loading-indicator {
+  width: 1.851851851851852vh; // 20px;
+  height: 1.851851851851852vh; // 20px;
+}
+
+.update-indicator span {
+  margin-left: 0.3703703703703704vh; // 4px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.296296296296296vh; // 14px;
+}
+
+.update-indicator:hover {
+  width: 15vh; // 162px;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.progress-indicator {
+  width: 2.407407407407407vh; // 26px;
+  height: 2.407407407407407vh; // 26px;
+}
+
+.update-indicator.updated {
+  border-color: rgba(3, 175, 1, 0.38);
+
+  &:hover {
+    border-color: rgba(3, 175, 1, 0.6);
+  }
+
+  span {
+    color: rgb(180, 230, 184);
+  }
+}
+
+.update-indicator.error {
+  border-color: rgba(255, 95, 95, 0.38);
+
+  &:hover {
+    border-color: rgba(255, 95, 95, 0.6);
+  }
+
+  span {
+    color: #fd8d8d;
+  }
+}

@@ -1,0 +1,41 @@
+
+.btn {
+    &.border-btn {
+        border: 0.1574074074074074vh solid #fff;
+        line-height: 3.703703703703704vh; // 40px
+        height: 3.703703703703704vh; // 40px
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 1.851851851851852vh; // 20px
+        padding: 0 1.666666666666667vh; // 0 18px
+        font-size: 1.666666666666667vh; // 18px
+        text-transform: uppercase;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 150ms ease-in-out;
+        outline: 0;
+        box-sizing: content-box;
+        color: #fff;
+        font-family: 'Blinker';
+        font-weight: 500;
+        background: rgba(0, 0, 0, 0.8);
+
+        i {
+            font-size: 1.944444444444444vh; // 21px
+            position: relative;
+            top: 0.3703703703703704vh; // 4px
+        }
+
+        &:hover {
+            opacity: 1.0;
+        }
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &.primary {
+            border-color: #e14d43;
+        }
+    }
+}

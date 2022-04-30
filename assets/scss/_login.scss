@@ -1,0 +1,94 @@
+#login-page {
+    text-align: center;
+
+    .prerel-warning {
+        width: 32.40740740740741vh;
+        font-size: 1.851851851851852vh;
+        text-align: center;
+        margin-bottom: 20px;
+
+        strong {
+            color: #e14d43;
+        }
+    }
+
+    .capslock-notice {
+        font-size: 1.851851851851852vh; // 20px
+        margin-top: -0.9259259259259259vh; // 10px
+        margin-bottom: 0.9259259259259259vh; // 10px
+        display: none;
+
+        strong {
+            color: #e14d43;
+        }
+
+        &.on {
+            display: block;
+        }
+    }
+
+    form {
+        margin-top: 25vh; // 270px;
+    }
+
+    img {
+        width: 30.55555555555556vh; // 330px
+        display: block;
+        margin-bottom: 3.703703703703704vh; // 40px;
+        opacity: 0.15;
+    }
+
+    .login-actions {
+        margin-top: 0.9259259259259259vh; // 10px
+
+        label, a {
+            text-decoration: none;
+            text-transform: none;
+            opacity: 1.0;
+            font-weight: 300;
+            font-size: 1.666666666666667vh; // 18px
+            vertical-align: top;
+        }
+
+        a {
+            transition: opacity 150ms ease-in-out;
+            opacity: 0.6;
+
+            &:hover {
+                opacity: 1.0;
+            }
+        }
+
+        .left-actions {
+            width: 49%;
+            float: left;
+            vertical-align: top;
+            height: 1.851851851851852vh; // 20px
+            line-height: 1.851851851851852vh; // 20px
+
+            input[type="checkbox"] {
+                margin: 0 0 0 0.7407407407407407vh; // 0 0 0 8 px
+                vertical-align: top;
+            }
+        }
+
+        .right-actions {
+            width: 49%;
+            float: right;
+            text-align: right;
+            vertical-align: top;
+            height: 1.851851851851852vh; // 20px
+            line-height: 1.851851851851852vh; // 20px
+        }
+    }
+
+    .btn {
+        margin: 0.9259259259259259vh 0; // 10px 0
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        height: 3.703703703703704vh; // 40px
+        line-height: 3.240740740740741vh; // 35px
+
+    }
+}

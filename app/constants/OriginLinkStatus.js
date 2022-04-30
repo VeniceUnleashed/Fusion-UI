@@ -1,0 +1,10 @@
+export const IDLE = 0;
+export const LINKING = 1;
+export const LINK_FAILED = 2;
+export const LINK_UNAVAILABLE = 3;
+export const LINK_TAKEN = 4;
+export const CHECKING_OWNERSHIP = 5;
+export const PRODUCT_MISSING = 6;
+export const LINK_SUCCESSFUL = 7;
+export const LINK_MISSING = 8;
+export const ORIGIN_ERROR = 9;
