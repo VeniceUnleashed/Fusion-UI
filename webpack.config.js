@@ -3,13 +3,14 @@ const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const { VextPackPlugin } = require('vextpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const config = {
-    entry: ['./app/index'],
+    entry: [ './app/index' ],
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'static/bundle.js',
-        publicPath: '/static/',
     },
     plugins: [],
     module: {
@@ -37,6 +38,12 @@ const config = {
 };
 
 module.exports = (env, argv) => {
+    config.plugins.push(new HtmlWebpackPlugin({
+        title: 'VU',
+        template: 'index.html',
+        alwaysWriteToDisk: true,
+    }));
+
     if (argv.mode === 'production') {
         config.optimization = {
             nodeEnv: 'production',
@@ -54,7 +61,6 @@ module.exports = (env, argv) => {
         config.plugins.push(new CopyPlugin({
             patterns: [
                 { from: './assets/', to: './assets/', globOptions: { ignore: [ '**/scss/**' ] } },
-                { from: './index.html', to: './index.html' },
             ],
         }));
 
@@ -66,8 +72,10 @@ module.exports = (env, argv) => {
         config.devServer = {
             hot: true,
         };
-
+        
         config.devtool = 'cheap-module-eval-source-map';
+
+        config.plugins.push(new HtmlWebpackHarddiskPlugin());
         config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
         config.plugins.push(new webpack.HotModuleReplacementPlugin());
     }

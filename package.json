@@ -14,6 +14,8 @@
     "express": "^4.14.1",
     "file-loader": "^6.0.0",
     "history": "^5.0.0",
+    "html-webpack-harddisk-plugin": "^1.0.2",
+    "html-webpack-plugin": "^4.5.2",
     "node-sass": "^6.0.1",
     "perfect-scrollbar": "1.4.0",
     "preloader": "^4.0.3",
@@ -39,7 +41,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
-    "webpack": "webpack --mode production"
+    "build": "webpack --mode production"
   },
   "private": true,
   "author": "Orfeas Zafeiris",
