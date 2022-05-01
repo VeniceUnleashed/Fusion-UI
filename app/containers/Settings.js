@@ -234,6 +234,14 @@ class Settings extends Component
         } else {
             this.props.setPopup(<ApplySettingsPopup/>);
         }
+
+        // For mod settings:
+        // WebUI.Call('SetModSettingBool', modName: string, settingName: string, value: boolean);
+        // WebUI.Call('SetModSettingNumber', modName: string, settingName: string, value: number);
+        // WebUI.Call('SetModSettingKeybind', modName: string, settingName: string, value: number);
+        // WebUI.Call('SetModSettingMultiKeybind', modName: string, settingName: string, value: number[]);
+        // WebUI.Call('SetModSettingString', modName: string, settingName: string, value: string);
+        // WebUI.Call('SetModSettingOption', modName: string, settingName: string, value: string | null);
     };
 
     _onResetSettings = (e) =>
