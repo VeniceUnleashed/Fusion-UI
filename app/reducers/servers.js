@@ -15,6 +15,8 @@ import {
     SET_VERSION_NUMBER,
     SET_VEXT_VERSION,
     SET_FAVORITE_SERVERS,
+    ADD_FAVORITE_SERVER,
+    REMOVE_FAVORITE_SERVER,
 } from '../constants/ActionTypes'
 
 import * as ServerFetchStatus from '../constants/ServerFetchStatus'
@@ -564,6 +566,34 @@ export default function servers(state = initialState, action)
             }
 
             return finalState;
+        }
+
+        case ADD_FAVORITE_SERVER:
+        {
+            WebUI.Call('AddFavoriteServer', action.server)
+
+            // Optimistic update.
+            const favoriteServers = new Set(state.favoriteServers);
+            favoriteServers.add(action.server);
+
+            return {
+                ...state,
+                favoriteServers,
+            }
+        }
+
+        case REMOVE_FAVORITE_SERVER:
+        {
+            WebUI.Call('RemoveFavoriteServer', action.server)
+
+            // Optimistic update.
+            const favoriteServers = new Set(state.favoriteServers);
+            favoriteServers.delete(action.server);
+
+            return {
+                ...state,
+                favoriteServers,
+            }
         }
 
         default:

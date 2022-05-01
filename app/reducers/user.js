@@ -10,6 +10,8 @@ import {
     SET_LOGIN_TOKEN,
     CHANGE_CONNECTION_STATUS,
     SET_ACCOUNT_STORAGE,
+    SET_ACCOUNT_STORAGE_VALUE,
+    REMOVE_ACCOUNT_STORAGE_VALUE,
 } from '../constants/ActionTypes'
 
 import * as LoginStatus from '../constants/LoginStatus'
@@ -216,6 +218,39 @@ export default function user(state = initialState, action)
             return {
                 ...state,
                 accountStorage: { ...action.accountStorage },
+            };
+        }
+
+        case SET_ACCOUNT_STORAGE_VALUE:
+        {
+            // Fire native event.
+            WebUI.Call('SetAccountStorageObject', action.key, action.value);
+
+            // Optimistic update.
+            return {
+                ...state,
+                accountStorage: {
+                    ...state.accountStorage,
+                    [action.key]: action.value,
+                },
+            };
+        }
+
+        case REMOVE_ACCOUNT_STORAGE_VALUE:
+        {
+            // Fire native event.
+            WebUI.Call('RemoveAccountStorageObject', action.key);
+
+            // Optimistic update.
+            const accountStorage = {
+                ...state.accountStorage,
+            };
+
+            delete accountStorage[action.key];
+
+            return {
+                ...state,
+                accountStorage,
             };
         }
 

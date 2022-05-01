@@ -49,3 +49,7 @@ export const SET_GLOBAL_NOTICE = 50;
 export const SET_ACCOUNT_STORAGE = 51;
 export const SET_FAVORITE_SERVERS = 52;
 export const SET_MOD_SETTINGS = 53;
+export const SET_ACCOUNT_STORAGE_VALUE = 54;
+export const REMOVE_ACCOUNT_STORAGE_VALUE = 55;
+export const ADD_FAVORITE_SERVER = 56;
+export const REMOVE_FAVORITE_SERVER = 57;
