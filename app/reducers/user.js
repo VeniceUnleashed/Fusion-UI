@@ -9,6 +9,7 @@ import {
     CHANGE_ORIGIN_LINK_STATUS,
     SET_LOGIN_TOKEN,
     CHANGE_CONNECTION_STATUS,
+    SET_ACCOUNT_STORAGE,
 } from '../constants/ActionTypes'
 
 import * as LoginStatus from '../constants/LoginStatus'
@@ -28,20 +29,13 @@ const initialState = {
     playerLoginStatus: 0,
     originLinkStatus: 0,
     loginToken: null,
+    accountStorage: {},
 };
 
 function createStateCopy(state)
 {
     return {
-        user: state.user,
-        loginStatus: state.loginStatus,
-        players: state.players,
-        player: state.player,
-        playerDeleteStatus: state.playerDeleteStatus,
-        playerCreateStatus: state.playerCreateStatus,
-        playerLoginStatus: state.playerLoginStatus,
-        originLinkStatus: state.originLinkStatus,
-        loginToken: state.loginToken,
+        ...state
     };
 }
 
@@ -215,6 +209,14 @@ export default function user(state = initialState, action)
             }
 
             return finalState;
+        }
+
+        case SET_ACCOUNT_STORAGE:
+        {
+            return {
+                ...state,
+                accountStorage: { ...action.accountStorage },
+            };
         }
 
         default:

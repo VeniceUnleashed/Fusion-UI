@@ -2,12 +2,14 @@ import {
     SET_SETTINGS,
     SET_CURRENT_SETTINGS,
     SHOW_SETTINGS_POPUP,
+    SET_MOD_SETTINGS,
 } from '../constants/ActionTypes'
 
 const initialState = {
     gameSettings: null,
     currentSettings: null,
     showPopup: false,
+    modSettings: {},
 };
 
 export default function settings(state = initialState, action)
@@ -39,6 +41,14 @@ export default function settings(state = initialState, action)
             return {
                 ...state,
                 showPopup: action.show,
+            }
+        }
+
+        case SET_MOD_SETTINGS:
+        {
+            return {
+                ...state,
+                modSettings: { ...action.settings },
             }
         }
 

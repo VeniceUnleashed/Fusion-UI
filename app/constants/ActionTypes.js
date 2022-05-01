@@ -46,3 +46,6 @@ export const SET_VOIP_DATA = 47;
 export const SHOW_SETTINGS_POPUP = 48;
 export const SET_NEWS = 49;
 export const SET_GLOBAL_NOTICE = 50;
+export const SET_ACCOUNT_STORAGE = 51;
+export const SET_FAVORITE_SERVERS = 52;
+export const SET_MOD_SETTINGS = 53;

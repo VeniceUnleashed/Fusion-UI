@@ -14,6 +14,7 @@ import {
     SET_BUILD_NUMBER,
     SET_VERSION_NUMBER,
     SET_VEXT_VERSION,
+    SET_FAVORITE_SERVERS,
 } from '../constants/ActionTypes'
 
 import * as ServerFetchStatus from '../constants/ServerFetchStatus'
@@ -44,6 +45,7 @@ const initialState = {
     build: 0,
     version: '',
     vextVersion: '',
+    favoriteServers: new Set([]),
 };
 
 function createStateCopy(state)
@@ -332,6 +334,15 @@ export default function servers(state = initialState, action)
             let finalState = createStateCopy(state);
 
             finalState.vextVersion = action.version;
+
+            return finalState;
+        }
+
+        case SET_FAVORITE_SERVERS:
+        {
+            let finalState = createStateCopy(state);
+
+            finalState.favoriteServers = new Set([ ...action.servers ]);
 
             return finalState;
         }

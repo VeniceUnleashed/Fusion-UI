@@ -69,6 +69,11 @@ setInterval(fetchNews, 30 * 60 * 1000);
 
 let globalNoticeTimer = null;
 
+window.PrintState = function()
+{
+    console.log(store.getState());
+};
+
 window.GlobalNotice = function(data)
 {
     if (globalNoticeTimer !== null)
