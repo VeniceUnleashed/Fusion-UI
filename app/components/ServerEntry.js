@@ -235,7 +235,6 @@ class ServerEntry extends Component
                 continue;
 
             tags.push(<strong key={tag}>{tag}</strong>);
-            tags.push(<span key={tag + 's'}>, </span>);
         }
 
         let serverInfo = [];
@@ -243,8 +242,6 @@ class ServerEntry extends Component
 
         if (tags.length > 0)
         {
-            tags.splice(tags.length - 1, 1);
-
             serverInfo.push(
                 <h3 key="tags" className="tags"><i className="material-icons">local_offer</i>{tags}</h3>
             );

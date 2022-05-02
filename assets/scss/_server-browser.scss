@@ -234,7 +234,16 @@
                 }
 
                 strong {
-                    color: #61d2ff;
+                    line-height: 1.6vh;
+                    height: 1.6vh;
+                    font-size: 1.4vh;
+                    display: inline-block;
+                    padding: 0.25vh 0.6vh 0.25vh;
+                    border-radius: 0.4vh;
+                    color: #fff;
+                    background-color: rgba(97, 210, 255, 0.4);
+                    margin-right: 0.5555555555555556vh; // 6px
+                    text-shadow: none;
                 }
 
                 span {
