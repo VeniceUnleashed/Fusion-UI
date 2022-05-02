@@ -85,3 +85,4 @@ dist/
 static/
 /tools/vuicc.exe
 /ui.vuic
+.vscode

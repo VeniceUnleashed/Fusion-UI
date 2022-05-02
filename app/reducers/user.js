@@ -18,6 +18,7 @@ import * as LoginStatus from '../constants/LoginStatus'
 import * as PlayerLoginStatus from '../constants/PlayerLoginStatus'
 import * as OriginLinkStatus from '../constants/OriginLinkStatus'
 import * as ConnectionStatus from '../constants/ConnectionStatus'
+import * as AccountStorageKeys from '../constants/AccountStorageKeys'
 
 import { hashHistory } from 'react-router'
 
@@ -31,7 +32,9 @@ const initialState = {
     playerLoginStatus: 0,
     originLinkStatus: 0,
     loginToken: null,
-    accountStorage: {},
+    accountStorage: {
+        [AccountStorageKeys.COMPACT_VIEW]: false,
+    },
 };
 
 function createStateCopy(state)

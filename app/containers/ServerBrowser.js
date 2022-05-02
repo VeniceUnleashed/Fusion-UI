@@ -5,6 +5,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import * as ServerFetchStatus from '../constants/ServerFetchStatus'
 import * as ServerConnectStatus from '../constants/ServerConnectStatus'
 import * as ActionTypes from '../constants/ActionTypes'
+import * as AccountStorageKeys from '../constants/AccountStorageKeys';
 import * as ServerSort from '../constants/ServerSort'
 import * as SortDirection from '../constants/SortDirection'
 
@@ -22,7 +23,6 @@ class ServerBrowser extends Component
         this.state = {
             expandedServer: null,
             filtersVisible: false,
-            compactView: false,
             width: 920,
             height: 580,
         };
@@ -129,7 +129,8 @@ class ServerBrowser extends Component
 
         let listClassName = 'list-body main-list-body';
 
-        if (this.state.compactView) {
+        const compactView = this.props.user.accountStorage[AccountStorageKeys.COMPACT_VIEW]
+        if (compactView) {
             listClassName += ' compact';
         }
 
@@ -151,9 +152,9 @@ class ServerBrowser extends Component
                                 <a href="#" onClick={this.onEditFilters.bind(this)}><i className="material-icons">filter_list</i></a>
                                 <ServerFilters visible={this.state.filtersVisible} onClose={this._onCloseFilters} />
                             </div>
-                            <div className={"header-action compact" + (this.state.compactView ? ' active' : '')}>
+                            <div className={"header-action compact" + (compactView ? ' active' : '')}>
                                 <span>Compact view</span>
-                                <a href="#" onClick={this.onToggleCompactView.bind(this)}><i className="material-icons">{this.state.compactView ? 'toggle_on' : 'toggle_off'}</i></a>
+                                <a href="#" onClick={this.onToggleCompactView.bind(this)}><i className="material-icons">{compactView ? 'toggle_on' : 'toggle_off'}</i></a>
                             </div>
                         </div>
                         <div className="column column-2" onClick={this._onSortByMap}>
@@ -211,7 +212,7 @@ class ServerBrowser extends Component
         if (e)
             e.preventDefault();
 
-        this.setState({ compactView: !this.state.compactView });
+        this.props.toggleCompactView();
     }
 
     _onExpandServer = (guid) =>
@@ -292,7 +293,8 @@ class ServerBrowser extends Component
 const mapStateToProps = (state) => {
     return {
         base: state.base,
-        servers: state.servers
+        servers: state.servers,
+        user: state.user,
     };
 };
 
@@ -318,7 +320,16 @@ const mapDispatchToProps = (dispatch) => {
         },
         cycleServerSortDirection: () => {
             dispatch({ type: ActionTypes.CYCLE_SERVER_SORT_DIRECTION })
-        }
+        },
+        toggleCompactView: () => dispatch((innerDispatch, getState) => {
+            const key = AccountStorageKeys.COMPACT_VIEW
+
+            innerDispatch({
+                type: ActionTypes.SET_ACCOUNT_STORAGE_VALUE,
+                key,
+                value: !getState().user.accountStorage[key],
+            });
+        })
     };
 };
 
