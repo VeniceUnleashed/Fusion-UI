@@ -33,7 +33,7 @@ const initialState = {
     originLinkStatus: 0,
     loginToken: null,
     accountStorage: {
-        [AccountStorageKeys.COMPACT_VIEW]: false,
+        [AccountStorageKeys.COMPACT_VIEW]: 'false',
     },
 };
 

@@ -129,7 +129,7 @@ class ServerBrowser extends Component
 
         let listClassName = 'list-body main-list-body';
 
-        const compactView = this.props.user.accountStorage[AccountStorageKeys.COMPACT_VIEW]
+        const compactView = this.props.user.accountStorage[AccountStorageKeys.COMPACT_VIEW] === 'true'
         if (compactView) {
             listClassName += ' compact';
         }
@@ -323,11 +323,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         toggleCompactView: () => dispatch((innerDispatch, getState) => {
             const key = AccountStorageKeys.COMPACT_VIEW
+            const boolValue = !(getState().user.accountStorage[key] === 'true')
 
             innerDispatch({
                 type: ActionTypes.SET_ACCOUNT_STORAGE_VALUE,
                 key,
-                value: !getState().user.accountStorage[key],
+                value: boolValue.toString(),
             });
         })
     };
