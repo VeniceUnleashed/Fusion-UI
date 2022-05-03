@@ -13,13 +13,6 @@ class ServerPasswordPopup extends Component
         }
     }
 
-    componentDidMount()
-    {
-        this.setState({
-            isCapsLockOn: false
-        })
-    }
-
     render()
     {
         return (
@@ -86,6 +79,10 @@ class ServerPasswordPopup extends Component
 
         if (this.refs.password)
             this.refs.password.focus();
+
+        this.setState({
+            isCapsLockOn: false
+        })
     }
 }
 
