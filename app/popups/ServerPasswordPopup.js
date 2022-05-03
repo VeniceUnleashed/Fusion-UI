@@ -4,6 +4,22 @@ import * as ActionTypes from '../constants/ActionTypes'
 
 class ServerPasswordPopup extends Component
 {
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            isCapsLockOn: false
+        }
+    }
+
+    componentDidMount()
+    {
+        this.setState({
+            isCapsLockOn: false
+        })
+    }
+
     render()
     {
         return (
@@ -11,8 +27,17 @@ class ServerPasswordPopup extends Component
                 <div className="notice-content">
                     <h1>Enter Server Password</h1>
                     <form onSubmit={this.onSubmit.bind(this)}>
-                        <label htmlFor="password">Server Password</label><br/>
-                        <input type="password" name="password" ref="password" id="password" />
+                        <div className="label-wrapper">
+                            <label htmlFor="password">Server Password</label><br/>
+                            {
+                                this.state.isCapsLockOn ? <div className="caps-lock-notice">
+                                    <i className="material-icons">info</i>CAPS LOCK IS ON
+                                </div>: null
+                            }
+                        </div>
+
+                        <input type="password" name="password" ref="password" id="password" onKeyUp={this.onKeyUp.bind(this)} />
+
                         <div className="form-actions">
                             <a href="#" className="btn border-btn" onClick={this.onClosePopup.bind(this)}>Close</a>
                             <a href="#" className="btn border-btn primary" onClick={this.onSubmit.bind(this)}>Connect</a>
@@ -22,6 +47,16 @@ class ServerPasswordPopup extends Component
                 </div>
             </div>
         );
+    }
+
+    onKeyUp(e)
+    {
+        const isCapsLockOn = e.getModifierState('CapsLock');
+
+        if (this.state.isCapsLockOn !== isCapsLockOn)
+        {
+            this.setState({ isCapsLockOn })
+        }
     }
 
     onClosePopup(e)

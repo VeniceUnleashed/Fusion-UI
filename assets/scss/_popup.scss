@@ -40,3 +40,24 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
+
+// password popup
+.label-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .caps-lock-notice {
+        display: flex;
+        align-items: center;
+        font-size: 1.4vh;
+        height: 1.4vh;
+        line-height: 1.4vh;
+        color: #f57c00;
+
+        i {
+            font-size: 1.7vh;
+            margin-right: 0.5vh;
+        }
+    }
+}
