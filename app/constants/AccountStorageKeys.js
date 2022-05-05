@@ -1,1 +1,1 @@
-export const COMPACT_VIEW = 'compactView'
+export const COMPACT_VIEW = 'compactView';

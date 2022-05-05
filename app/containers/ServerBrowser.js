@@ -129,7 +129,7 @@ class ServerBrowser extends Component
 
         let listClassName = 'list-body main-list-body';
 
-        const compactView = this.props.user.accountStorage[AccountStorageKeys.COMPACT_VIEW] === 'true'
+        const compactView = this.props.user.accountStorage[AccountStorageKeys.COMPACT_VIEW] === 'true';
         if (compactView) {
             listClassName += ' compact';
         }
