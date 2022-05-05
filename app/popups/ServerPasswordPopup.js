@@ -9,8 +9,8 @@ class ServerPasswordPopup extends Component
         super(props);
 
         this.state = {
-            isCapsLockOn: false
-        }
+            isCapsLockOn: false,
+        };
     }
 
     render()
@@ -29,7 +29,7 @@ class ServerPasswordPopup extends Component
                             }
                         </div>
 
-                        <input type="password" name="password" ref="password" id="password" onKeyUp={this.onKeyUp.bind(this)} />
+                        <input type="password" name="password" ref="password" id="password" onKeyDown={this.onUpdateCapsLock} onKeyUp={this.onUpdateCapsLock} onMouseDown={this.onUpdateCapsLock} />
 
                         <div className="form-actions">
                             <a href="#" className="btn border-btn" onClick={this.onClosePopup.bind(this)}>Close</a>
@@ -42,14 +42,12 @@ class ServerPasswordPopup extends Component
         );
     }
 
-    onKeyUp(e)
+    onUpdateCapsLock = (e) =>
     {
         const isCapsLockOn = e.getModifierState('CapsLock');
 
         if (this.state.isCapsLockOn !== isCapsLockOn)
-        {
-            this.setState({ isCapsLockOn })
-        }
+            this.setState({ isCapsLockOn });
     }
 
     onClosePopup(e)
@@ -79,10 +77,6 @@ class ServerPasswordPopup extends Component
 
         if (this.refs.password)
             this.refs.password.focus();
-
-        this.setState({
-            isCapsLockOn: false
-        })
     }
 }
 
