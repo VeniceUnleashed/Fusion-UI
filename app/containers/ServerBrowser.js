@@ -322,8 +322,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({ type: ActionTypes.CYCLE_SERVER_SORT_DIRECTION })
         },
         toggleCompactView: () => dispatch((innerDispatch, getState) => {
-            const key = AccountStorageKeys.COMPACT_VIEW
-            const boolValue = !(getState().user.accountStorage[key] === 'true')
+            const key = AccountStorageKeys.COMPACT_VIEW;
+            const boolValue = !(getState().user.accountStorage[key] === 'true');
 
             innerDispatch({
                 type: ActionTypes.SET_ACCOUNT_STORAGE_VALUE,
