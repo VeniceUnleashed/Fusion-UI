@@ -1,7 +1,8 @@
 import 'react-hot-loader'
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
+import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { hashHistory } from 'react-router'
 
@@ -41,7 +42,7 @@ window.updateState = UpdateState;
 window.updateError = UpdateError;
 
 // Create the main application store.
-let store = createStore(reducer);
+let store = createStore(reducer, applyMiddleware(thunk));
 
 const fetchNews = () => new Promise((resolve, reject) => {
     fetch('https://veniceunleashed.net/vu-ig-news')
