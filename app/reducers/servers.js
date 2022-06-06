@@ -577,7 +577,7 @@ export default function servers(state = initialState, action)
 
         case ADD_FAVORITE_SERVER:
         {
-            WebUI.Call('AddFavoriteServer', action.server)
+            WebUI.Call('AddFavoriteServer', action.server.guid)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
@@ -591,7 +591,7 @@ export default function servers(state = initialState, action)
 
         case REMOVE_FAVORITE_SERVER:
         {
-            WebUI.Call('RemoveFavoriteServer', action.server)
+            WebUI.Call('RemoveFavoriteServer', action.server.guid)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
