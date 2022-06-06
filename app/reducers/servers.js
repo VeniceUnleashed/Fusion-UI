@@ -17,8 +17,10 @@ import {
     SET_FAVORITE_SERVERS,
     ADD_FAVORITE_SERVER,
     REMOVE_FAVORITE_SERVER,
+    TOGGLE_FAVORITE_SERVERS_ONLY,
 } from '../constants/ActionTypes'
 
+import * as AccountStorageKeys from '../constants/AccountStorageKeys';
 import * as ServerFetchStatus from '../constants/ServerFetchStatus'
 import * as ServerSort from '../constants/ServerSort'
 import * as SortDirection from '../constants/SortDirection'
@@ -48,6 +50,7 @@ const initialState = {
     version: '',
     vextVersion: '',
     favoriteServers: new Set([]),
+    favoriteServersOnly: false,
 };
 
 function createStateCopy(state)
@@ -272,6 +275,10 @@ function filterServers(filters, servers, state)
 
             filtered.push(server);
         }
+    }
+    
+    if (state.favoriteServersOnly) {
+        filtered = filtered.filter((server) => Array.from(state.favoriteServers).find(e => e.guid === server.guid) != undefined);
     }
 
     return filtered;
@@ -594,6 +601,27 @@ export default function servers(state = initialState, action)
                 ...state,
                 favoriteServers,
             }
+        }
+
+        case TOGGLE_FAVORITE_SERVERS_ONLY:
+        {
+            let finalState = {
+                ...state,
+                favoriteServersOnly: !state.favoriteServersOnly,
+            };
+
+            // Filter the servers.
+            finalState.listing = filterServers(finalState.filters, finalState.originalListing, finalState);
+
+            // Sort the filtered servers.
+            const sorter = getSortingFunction(finalState.sortBy, finalState.sortDirection);
+
+            if (sorter !== null)
+            {
+                finalState.listing.sort(sorter);
+            }
+
+            return finalState;
         }
 
         default:

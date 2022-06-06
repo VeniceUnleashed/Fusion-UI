@@ -95,6 +95,11 @@ class ServerBrowser extends Component
 
         for (const server of this.props.servers.listing)
         {
+            let isFavorite = false;
+            if (this.props.servers.favoriteServers.size) {
+                isFavorite = Array.from(this.props.servers.favoriteServers).find(e => e.guid === server.guid) != undefined;
+            }
+
             servers.push(
                 <ServerEntry
                     server={server}
@@ -103,6 +108,8 @@ class ServerBrowser extends Component
                     onClick={this._onExpandServer}
                     onJoin={this._onJoinServer}
                     onSpectate={this._onSpectateServer}
+                    onAddRemoveFavorite={this._onAddRemoveFavorite}
+                    isFavorite={isFavorite}
                 />
             );
         }
@@ -134,6 +141,8 @@ class ServerBrowser extends Component
             listClassName += ' compact';
         }
 
+        const favoritesOnly = this.props.servers.favoriteServersOnly;
+
         return (
             <div className="server-browser content-wrapper" ref="browser">
                 <div className="server-list">
@@ -155,6 +164,10 @@ class ServerBrowser extends Component
                             <div className={"header-action compact" + (compactView ? ' active' : '')}>
                                 <span>Compact view</span>
                                 <a href="#" onClick={this.onToggleCompactView.bind(this)}><i className="material-icons">{compactView ? 'toggle_on' : 'toggle_off'}</i></a>
+                            </div>
+                            <div className={"header-action compact" + (favoritesOnly ? ' active' : '')}>
+                                <span>Favorites</span>
+                                <a href="#" onClick={this.onToggleFavoritesOnly.bind(this)}><i className="material-icons">{favoritesOnly ? 'toggle_on' : 'toggle_off'}</i></a>
                             </div>
                         </div>
                         <div className="column column-2" onClick={this._onSortByMap}>
@@ -215,6 +228,14 @@ class ServerBrowser extends Component
         this.props.toggleCompactView();
     }
 
+    onToggleFavoritesOnly(e)
+    {
+        if (e)
+            e.preventDefault();
+
+        this.props.toggleFavoritesOnly();
+    }
+
     _onExpandServer = (guid) =>
     {
         this.setState({ expandedServer: guid });
@@ -252,6 +273,16 @@ class ServerBrowser extends Component
         }
 
         setTimeout(function() { WebUI.Call('SpectateServer', guid); }, 500);
+    };
+
+    _onAddRemoveFavorite = (server, isFavorite) =>
+    {
+        if (isFavorite) {
+            this.props.removeFavorite(server);
+            return;
+        }
+
+        this.props.addFavorite(server);
     };
 
     componentDidMount()
@@ -330,7 +361,16 @@ const mapDispatchToProps = (dispatch) => {
                 key,
                 value: boolValue.toString(),
             });
-        })
+        }),
+        toggleFavoritesOnly: () => {
+            dispatch({ type: ActionTypes.TOGGLE_FAVORITE_SERVERS_ONLY })
+        },
+        addFavorite: (server) => {
+            dispatch({ type: ActionTypes.ADD_FAVORITE_SERVER, server })
+        },
+        removeFavorite: (server) => {
+            dispatch({ type: ActionTypes.REMOVE_FAVORITE_SERVER, server })
+        },
     };
 };
 
