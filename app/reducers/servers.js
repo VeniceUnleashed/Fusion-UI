@@ -278,7 +278,7 @@ function filterServers(filters, servers, state)
     }
     
     if (state.favoriteServersOnly) {
-        filtered = filtered.filter((server) => Array.from(state.favoriteServers).find(e => e.guid === server.guid) != undefined);
+        filtered = filtered.filter((server) => state.favoriteServers.has(server.guid));
     }
 
     return filtered;
@@ -581,7 +581,7 @@ export default function servers(state = initialState, action)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
-            favoriteServers.add(action.server);
+            favoriteServers.add(action.server.guid);
 
             return {
                 ...state,
@@ -595,7 +595,7 @@ export default function servers(state = initialState, action)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
-            favoriteServers.delete(action.server);
+            favoriteServers.delete(action.server.guid);
 
             return {
                 ...state,

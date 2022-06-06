@@ -97,7 +97,7 @@ class ServerBrowser extends Component
         {
             let isFavorite = false;
             if (this.props.servers.favoriteServers.size) {
-                isFavorite = Array.from(this.props.servers.favoriteServers).find(e => e.guid === server.guid) != undefined;
+                isFavorite = this.props.servers.favoriteServers.has(server.guid);
             }
 
             servers.push(
@@ -332,25 +332,25 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onResetServerFetch: () => {
-            dispatch({ type: ActionTypes.CHANGE_SERVER_FETCH_STATUS, status: ServerFetchStatus.IDLE })
+            dispatch({ type: ActionTypes.CHANGE_SERVER_FETCH_STATUS, status: ServerFetchStatus.IDLE });
         },
         disableBlur: () => {
-            dispatch({ type: ActionTypes.SET_BLUR, blur: false })
+            dispatch({ type: ActionTypes.SET_BLUR, blur: false });
         },
         enableMenu: () => {
-            dispatch({ type: ActionTypes.SET_MENU, menu: true })
+            dispatch({ type: ActionTypes.SET_MENU, menu: true });
         },
         setConnectionStatus: () => {
-            dispatch({ type: ActionTypes.CHANGE_SERVER_CONNECT_STATUS, status: ServerConnectStatus.CONNECTING })
+            dispatch({ type: ActionTypes.CHANGE_SERVER_CONNECT_STATUS, status: ServerConnectStatus.CONNECTING });
         },
         setPopup: (popup) => {
-            dispatch({ type: ActionTypes.SET_POPUP, popup: popup })
+            dispatch({ type: ActionTypes.SET_POPUP, popup: popup });
         },
         sortServersBy: (sortBy, sortDirection) => {
-            dispatch({ type: ActionTypes.SORT_SERVERS_BY, sortBy, sortDirection })
+            dispatch({ type: ActionTypes.SORT_SERVERS_BY, sortBy, sortDirection });
         },
         cycleServerSortDirection: () => {
-            dispatch({ type: ActionTypes.CYCLE_SERVER_SORT_DIRECTION })
+            dispatch({ type: ActionTypes.CYCLE_SERVER_SORT_DIRECTION });
         },
         toggleCompactView: () => dispatch((innerDispatch, getState) => {
             const key = AccountStorageKeys.COMPACT_VIEW;
@@ -363,13 +363,13 @@ const mapDispatchToProps = (dispatch) => {
             });
         }),
         toggleFavoritesOnly: () => {
-            dispatch({ type: ActionTypes.TOGGLE_FAVORITE_SERVERS_ONLY })
+            dispatch({ type: ActionTypes.TOGGLE_FAVORITE_SERVERS_ONLY });
         },
         addFavorite: (server) => {
-            dispatch({ type: ActionTypes.ADD_FAVORITE_SERVER, server })
+            dispatch({ type: ActionTypes.ADD_FAVORITE_SERVER, server });
         },
         removeFavorite: (server) => {
-            dispatch({ type: ActionTypes.REMOVE_FAVORITE_SERVER, server })
+            dispatch({ type: ActionTypes.REMOVE_FAVORITE_SERVER, server });
         },
     };
 };
