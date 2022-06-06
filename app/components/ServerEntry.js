@@ -85,6 +85,15 @@ class ServerEntry extends Component
             this.props.onJoin(this.props.server.guid);
     };
 
+    _onAddRemoveFavorite = (e) =>
+    {
+        if (e)
+            e.preventDefault();
+
+        if (this.props.onAddRemoveFavorite)
+            this.props.onAddRemoveFavorite(this.props.server, this.props.isFavorite);
+    };
+
     _onSpectate = (e) =>
     {
         if (e)
@@ -117,6 +126,9 @@ class ServerEntry extends Component
 
         if (this.props.expanded)
             serverClassName += ' expanded';
+
+        if (this.props.isFavorite)
+            serverClassName += ' favorite';
 
         let playerCount = parseInt(server.players, 10);
         let spectatorCount = parseInt(server.variables.spectators, 10);
@@ -267,6 +279,11 @@ class ServerEntry extends Component
             <h1 key="info"><div className={serverIconsClass}>{serverIcons}</div>{server.name}</h1>
         );
 
+        let favoriteButtonClassName = 'favorite-btn';
+        if (this.props.isFavorite) {
+            favoriteButtonClassName += ' is-favorite';
+        }
+
         return (
             <div className={serverClassName} style={style} onClick={this._onClick}>
                 <div className="top-content">
@@ -292,6 +309,9 @@ class ServerEntry extends Component
                         {compatibilityNotice}
                     </div>
                     <div className="right-content">
+                        <a href="#" onClick={this._onAddRemoveFavorite} className={favoriteButtonClassName}>
+                            <i className="material-icons">{this.props.isFavorite ? "star" : "star_border"}</i>
+                        </a>
                         {spectateButton}
                         <a href="#" onClick={this._onJoin} className="btn border-btn join-btn"><i className="material-icons">play_arrow</i> Join</a>
                     </div>

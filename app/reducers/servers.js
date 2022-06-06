@@ -17,8 +17,10 @@ import {
     SET_FAVORITE_SERVERS,
     ADD_FAVORITE_SERVER,
     REMOVE_FAVORITE_SERVER,
+    TOGGLE_FAVORITE_SERVERS_ONLY,
 } from '../constants/ActionTypes'
 
+import * as AccountStorageKeys from '../constants/AccountStorageKeys';
 import * as ServerFetchStatus from '../constants/ServerFetchStatus'
 import * as ServerSort from '../constants/ServerSort'
 import * as SortDirection from '../constants/SortDirection'
@@ -48,6 +50,7 @@ const initialState = {
     version: '',
     vextVersion: '',
     favoriteServers: new Set([]),
+    favoriteServersOnly: false,
 };
 
 function createStateCopy(state)
@@ -272,6 +275,10 @@ function filterServers(filters, servers, state)
 
             filtered.push(server);
         }
+    }
+    
+    if (state.favoriteServersOnly) {
+        filtered = filtered.filter((server) => state.favoriteServers.has(server.guid));
     }
 
     return filtered;
@@ -570,11 +577,11 @@ export default function servers(state = initialState, action)
 
         case ADD_FAVORITE_SERVER:
         {
-            WebUI.Call('AddFavoriteServer', action.server)
+            WebUI.Call('AddFavoriteServer', action.server.guid)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
-            favoriteServers.add(action.server);
+            favoriteServers.add(action.server.guid);
 
             return {
                 ...state,
@@ -584,16 +591,37 @@ export default function servers(state = initialState, action)
 
         case REMOVE_FAVORITE_SERVER:
         {
-            WebUI.Call('RemoveFavoriteServer', action.server)
+            WebUI.Call('RemoveFavoriteServer', action.server.guid)
 
             // Optimistic update.
             const favoriteServers = new Set(state.favoriteServers);
-            favoriteServers.delete(action.server);
+            favoriteServers.delete(action.server.guid);
 
             return {
                 ...state,
                 favoriteServers,
             }
+        }
+
+        case TOGGLE_FAVORITE_SERVERS_ONLY:
+        {
+            let finalState = {
+                ...state,
+                favoriteServersOnly: !state.favoriteServersOnly,
+            };
+
+            // Filter the servers.
+            finalState.listing = filterServers(finalState.filters, finalState.originalListing, finalState);
+
+            // Sort the filtered servers.
+            const sorter = getSortingFunction(finalState.sortBy, finalState.sortDirection);
+
+            if (sorter !== null)
+            {
+                finalState.listing.sort(sorter);
+            }
+
+            return finalState;
         }
 
         default:
