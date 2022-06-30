@@ -1,0 +1,39 @@
+.keybind-input {
+    position: relative;
+    width: 100%;
+    
+    input[type="text"] {
+        border: 0;
+        outline: 0;
+        background: rgba(255, 255, 255, 0.1);
+        width: 100%;
+        height: 3.703703703703704vh; // 40px
+        padding: 0 0.9259259259259259vh; // 0 10px
+        color: rgba(255, 255, 255, 0.95);
+        font-family: 'Blinker';
+        font-size: 1.481481481481481vh; // 16px
+        box-sizing: border-box;
+        border: 0.15741vh solid rgba(255, 255, 255, 0.4);
+    }
+
+    .keybind-reset {
+        position: absolute;
+        right: 0;
+        border: 0.1574074074074074vh solid #fff;
+        line-height: 3.703703703703704vh;
+        height: 3.703703703703704vh;
+        display: inline-block;
+        vertical-align: top;
+        padding: 0 1.666666666666667vh;
+        font-size: 1.666666666666667vh;
+        text-transform: uppercase;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 150ms ease-in-out;
+        outline: 0;
+        color: #fff;
+        font-family: 'Blinker';
+        font-weight: 500;
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
