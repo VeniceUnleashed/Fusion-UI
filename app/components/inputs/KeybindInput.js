@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { InputDeviceKeyNames } from "../../constants/InputDeviceKey";
-
 import "./KeybindInput.scss";
 
 export default class KeybindInput extends Component
@@ -21,7 +19,7 @@ export default class KeybindInput extends Component
             <div className="keybind-input">
                 <input
                     type="text"
-                    value={InputDeviceKeyNames[this.props.value]}
+                    value={this.props.value}
                     placeholder={this.state.focus ? "Press a key..." : (this.props.placeholder??"")}
                     onKeyDown={this._onKeyDown}
                     onFocus={() => this.setState({ focus: true })}

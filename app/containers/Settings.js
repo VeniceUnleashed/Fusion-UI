@@ -354,12 +354,6 @@ class Settings extends Component
 
         WebUI.Call('ApplySettings', this.props.settings.currentSettings);
 
-        if (this.props.popup) {
-            this.props.hideSettingsPopup();
-        } else {
-            this.props.setPopup(<ApplySettingsPopup/>);
-        }
-
         // For mod settings:
         // WebUI.Call('SetModSettingBool', modName: string, settingName: string, value: boolean);
         // WebUI.Call('SetModSettingNumber', modName: string, settingName: string, value: number);
@@ -367,6 +361,42 @@ class Settings extends Component
         // WebUI.Call('SetModSettingMultiKeybind', modName: string, settingName: string, value: number[]);
         // WebUI.Call('SetModSettingString', modName: string, settingName: string, value: string);
         // WebUI.Call('SetModSettingOption', modName: string, settingName: string, value: string | null);
+
+        Object.entries(this.props.settings.modSettings).forEach((mod) => {
+            const modName = mod[0];
+            Object.entries(mod[1]).forEach((setting) => {
+                const settingName = setting[0];
+                const value = setting[1].currentValue;
+                if (value !== undefined) {
+                    switch (setting[1].type) {
+                        case BOOL:
+                            WebUI.Call('SetModSettingBool', modName, settingName, value);
+                            break;
+                        case NUMBER:
+                            WebUI.Call('SetModSettingNumber', modName, settingName, value);
+                            break;
+                        case KEYBIND:
+                            WebUI.Call('SetModSettingKeybind', modName, settingName, value);
+                            break;
+                        case MULTI_KEYBIND:
+                            WebUI.Call('SetModSettingMultiKeybind', modName, settingName, value); // TODO: Fixme
+                            break;
+                        case STRING:
+                            WebUI.Call('SetModSettingString', modName, settingName, value);
+                            break;
+                        case OPTION:
+                            WebUI.Call('SetModSettingOption', modName, settingName, value);
+                            break;
+                    }
+                }
+            });
+        });
+
+        if (this.props.popup) {
+            this.props.hideSettingsPopup();
+        } else {
+            this.props.setPopup(<ApplySettingsPopup/>);
+        }
     };
 
     _onResetSettings = (e) =>
