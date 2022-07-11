@@ -9,7 +9,7 @@ export default class KeybindInput extends Component
         super(props);
 
         this.state = {
-            focus: false,
+            editing: false,
         };
     };
 
@@ -19,12 +19,12 @@ export default class KeybindInput extends Component
             <div className="keybind-input">
                 <input
                     type="text"
-                    value={this.props.value}
-                    placeholder={this.state.focus ? "Press a key..." : (this.props.placeholder??"")}
+                    value={!this.state.editing ? this.props.value : ""}
+                    placeholder={this.state.editing ? "Press a key..." : (this.props.placeholder??"")}
                     onKeyDown={this._onKeyDown}
-                    onFocus={() => this.setState({ focus: true })}
-                    onBlur={() => this.setState({ focus: false })}
-                    disabled={this.props.value !== ""}
+                    onClick={() => this.setState({ editing: true })}
+                    onBlur={() => this.setState({ editing: false })}
+                    readOnly
                 />
                 {this.props.value !== "" &&
                     <button className="keybind-reset" onClick={() => this.props.onChange("")}>
@@ -38,7 +38,7 @@ export default class KeybindInput extends Component
     _onKeyDown = (e) =>
     {
         e.preventDefault();
-        this.setState({ value: e.key });
-        this.props.onChange(e.key)
+        this.setState({ editing: false });
+        this.props.onChange(e.keyCode)
     };
 }
