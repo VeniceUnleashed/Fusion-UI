@@ -200,7 +200,7 @@ export const InputDeviceKeyNames = {
   [INPUT_DEVICE_KEY_Slash]: "Slash",
   [INPUT_DEVICE_KEY_RightShift]: "Right Shift",
   [INPUT_DEVICE_KEY_Multiply]: "Multiply",
-  [INPUT_DEVICE_KEY_LeftAlt]: "LeftAlt",
+  [INPUT_DEVICE_KEY_LeftAlt]: "Left Alt",
   [INPUT_DEVICE_KEY_Space]: "Space",
   [INPUT_DEVICE_KEY_Capital]: "Capital",
   [INPUT_DEVICE_KEY_F1]: "F1",
