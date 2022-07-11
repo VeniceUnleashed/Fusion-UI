@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { InputDeviceKeyNames } from "../../constants/InputDeviceKey";
+
 import "./KeybindInput.scss";
 
 export default class KeybindInput extends Component
@@ -10,7 +12,6 @@ export default class KeybindInput extends Component
 
         this.state = {
             focus: false,
-            value: props.value??"",
         };
     };
 
@@ -20,15 +21,15 @@ export default class KeybindInput extends Component
             <div className="keybind-input">
                 <input
                     type="text"
-                    value={this.state.value}
+                    value={InputDeviceKeyNames[this.props.value]}
                     placeholder={this.state.focus ? "Press a key..." : (this.props.placeholder??"")}
                     onKeyDown={this._onKeyDown}
                     onFocus={() => this.setState({ focus: true })}
                     onBlur={() => this.setState({ focus: false })}
-                    disabled={this.state.value !== ""}
+                    disabled={this.props.value !== ""}
                 />
-                {this.state.value !== "" &&
-                    <button className="keybind-reset" onClick={() => this.setState({ value: "" })}>
+                {this.props.value !== "" &&
+                    <button className="keybind-reset" onClick={() => this.props.onChange("")}>
                         Reset
                     </button>
                 }
@@ -40,6 +41,6 @@ export default class KeybindInput extends Component
     {
         e.preventDefault();
         this.setState({ value: e.key });
-        // this.props.onChange(e.keyCode)
+        this.props.onChange(e.key)
     };
 }

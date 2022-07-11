@@ -67,7 +67,6 @@ export default function settings(state = initialState, action)
 
         case SET_MOD_SETTINGS:
         {
-            console.log(JSON.stringify(action.settings));
             return {
                 ...state,
                 modSettings: { ...action.settings },

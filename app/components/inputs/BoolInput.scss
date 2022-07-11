@@ -10,7 +10,6 @@
         top: 50%;
         text-transform: uppercase;
         z-index: 5;
-        transition: color 150ms ease-in-out;
         font-size: 1.8vh;
         font-weight: 500;
     }
@@ -35,12 +34,10 @@
         &:checked {
             & ~ .on {
                 color: #000;
-                transition: color 150ms ease-in-out;
             }
 
             & ~ .off {
                 color: #fff;
-                transition: color 150ms ease-in-out;
             }
 
             & + .slider:before {
@@ -58,7 +55,6 @@
         bottom: 0;
         background: rgba(255, 255, 255, 0.1);
         border: 0.15741vh solid rgba(255, 255, 255, 0.4);
-        transition: all 150ms ease-in-out;
 
         &:before {
             position: absolute;
@@ -69,7 +65,6 @@
             bottom: .25vh;
             background: rgba(255, 255, 255, 0.95);
             z-index: 4;
-            transition: all 150ms ease-in-out;
         }
     }
 }

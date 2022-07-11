@@ -16,6 +16,11 @@ export const SELECT_STYLE = {
         fontWeight: 300,
         fontSize: '1.851851851851852vh', // 20px
     }),
+    menuList: (provided, state) => ({
+        ...provided,
+        paddingTop: 0,
+        paddingBottom: 0,
+     }),     
     option: (provided, state) => {
         let backgroundColor = 'transparent';
         let color = '#fff';
@@ -49,7 +54,7 @@ export const SELECT_STYLE = {
         borderRadius: 0,
         boxShadow: 'none',
         border: '0.1574074074074074vh solid rgba(255, 255, 255, 0.4)',
-        zIndex: 15,
+        zIndex: 5,
     }),
     dropdownIndicator: (provided) => ({
         ...provided,

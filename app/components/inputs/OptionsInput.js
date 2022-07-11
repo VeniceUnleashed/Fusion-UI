@@ -26,6 +26,7 @@ export default class OptionsInput extends Component
                 styles={SELECT_STYLE}
                 value={val}
                 options={options}
+                onChange={this.props.onChange}
                 isClearable={this.props.allowEmpty??false}
             />
         );

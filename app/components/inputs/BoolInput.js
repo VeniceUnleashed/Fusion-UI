@@ -8,7 +8,12 @@ export default class BoolInput extends Component
     {
         return (
             <label className="bool-input">
-                <input type="checkbox" />
+                <input
+                    type="checkbox"
+                    defaultChecked={this.props.value}
+                    checked={this.props.value}
+                    onChange={this.props.onChange}
+                />
                 <span className="slider round"></span>
                 <span className="off">Off</span>
                 <span className="on">On</span>

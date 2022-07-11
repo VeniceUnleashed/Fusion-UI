@@ -22,9 +22,6 @@ import {
     OPTION
 } from "../constants/ModSettingType";
 
-// TODO: Remove me
-const DEBUG_MODS = '{"vu-battleroyale":{"Voip_Team_TransmissionMode":{"type":5,"displayName":"Team Voip TransmissionMode","value":{"value":"PushToTalk","allowEmpty":false,"options":["AlwaysOn","PushToTalk","VoiceActivation"]}},"Voip_Team_PushToTalk_Key":{"type":2,"displayName":"Team Voip Push-To-Talk Key","value":11},"PingEnemyMouseButton":{"type":1,"displayName":"Ping Enemy MouseButton","value":{"value":2,"min":0,"max":8}},"Voip_Party_TransmissionMode":{"type":5,"displayName":"Party Voip TransmissionMode","value":{"value":"PushToTalk","allowEmpty":false,"options":["AlwaysOn","PushToTalk","VoiceActivation"]}},"PingEnemyOption":{"type":5,"displayName":"Ping Enemy","value":{"value":"Define MouseButton","allowEmpty":false,"options":["Define MouseButton","Define Key","Press Ping-Key twice"]}},"PingEnemyKey":{"type":2,"displayName":"Ping Enemy Key","value":3},"Voip_Party_PushToTalk_Key":{"type":2,"displayName":"Party Voip Push-To-Talk Key","value":2},"PingKey":{"type":2,"displayName":"Ping Key","value":16},"ShowFPS":{"type":0,"displayName":"Show FPS","value":false}},"realitymod-repo":{"Voip_SL_Direct_9_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 9 Push-To-Talk Key","value":73},"Voip_SL_Direct_1_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 1 Push-To-Talk Key","value":79},"Voip_SL_Direct_4_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 4 Push-To-Talk Key","value":75},"Compass_Toggle_Key":{"type":2,"displayName":"Toggle Compass","value":23},"Voip_Squad_PushToTalk_Key":{"type":2,"displayName":"Squad Radio Push-To-Talk Key","value":48},"Voip_HQ_PushToTalk_Key":{"type":2,"displayName":"HQ Push-To-Talk Key","value":21},"Voip_Local_PushToTalk_Key":{"type":2,"displayName":"Local Push-To-Talk Key","value":34},"Voip_SL_Direct_8_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 8 Push-To-Talk Key","value":72},"Voip_SL_Direct_5_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 5 Push-To-Talk Key","value":76},"Voip_SL_Direct_7_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 7 Push-To-Talk Key","value":71},"Voip_SL_Direct_6_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 6 Push-To-Talk Key","value":77},"Voip_SL_Direct_2_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 2 Push-To-Talk Key","value":80},"Voip_SL_Direct_3_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 3 Push-To-Talk Key","value":81},"Compass_Position":{"type":5,"displayName":"Compass Position","value":{"value":"Bottom","allowEmpty":false,"options":["Bottom","Top"]}},"Tac_Rose_Key":{"type":2,"displayName":"Tac-Rose Key","value":20},"Interactive_Notification_Decline":{"type":2,"displayName":"Interactive Notification Decline Key","value":209},"Interactive_Notification_Accept":{"type":2,"displayName":"Interactive Notification Accept Key","value":201}},"realitymod":{"Compass_Toggle_Key":{"type":2,"displayName":"Toggle Compass","value":23},"Voip_Squad_PushToTalk_Key":{"type":2,"displayName":"Squad Radio Push-To-Talk Key","value":48},"Voip_SL_Direct_4_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 4 Push-To-Talk Key","value":75},"Voip_SL_Direct_1_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 1 Push-To-Talk Key","value":79},"Voip_SL_Direct_7_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 7 Push-To-Talk Key","value":71},"Voip_SL_Direct_3_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 3 Push-To-Talk Key","value":81},"Voip_HQ_PushToTalk_Key":{"type":2,"displayName":"HQ Push-To-Talk Key","value":21},"Voip_Local_PushToTalk_Key":{"type":2,"displayName":"Local Push-To-Talk Key","value":34},"Voip_SL_Direct_8_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 8 Push-To-Talk Key","value":72},"Voip_SL_Direct_5_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 5 Push-To-Talk Key","value":76},"Voip_SL_Direct_9_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 9 Push-To-Talk Key","value":73},"Voip_SL_Direct_6_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 6 Push-To-Talk Key","value":77},"Voip_SL_Direct_2_PushToTalk_Key":{"type":2,"displayName":"SL Direct to squad 2 Push-To-Talk Key","value":80},"Compass_Position":{"type":5,"displayName":"Compass Position","value":{"value":"Bottom","allowEmpty":false,"options":["Bottom","Top"]}},"Tac_Rose_Key":{"type":2,"displayName":"Tac-Rose Key","value":20},"Interactive_Notification_Decline":{"type":2,"displayName":"Interactive Notification Decline Key","value":209},"Interactive_Notification_Accept":{"type":2,"displayName":"Interactive Notification Accept Key","value":201}},"voipmod-main":{"DefaultVoipVolume":{"type":1,"displayName":"Default Voip Volume","value":{"value":5,"min":0.001,"max":100}},"VoipPushToTalk":{"type":2,"displayName":"Voip Push To Talk key","value":56},"PlayerVoipLevel":{"type":5,"displayName":"PlayerVoipLevel","value":{"value":"Squad","allowEmpty":false,"options":["Team","Squad","Disabled"]}}},"betteringameadmin":{}}';
-
 class Settings extends Component
 {
     constructor(props)
@@ -142,29 +139,48 @@ class Settings extends Component
             </div>
         );
 
-        const renderModSetting = (setting) => {
+        const renderModSetting = (settingKey, setting) => {
             switch (setting.type) {
                 case BOOL:
                     return <BoolInput 
-
+                        value={setting.currentValue??setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.target.checked);
+                        }}
                     />;
                 case NUMBER:
                     return <NumberInput
-                        value={setting.value.value}
+                        value={setting.currentValue??setting.value.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
+                        min={setting.value.min??0}
+                        max={setting.value.max??100}
                     />;
                 case KEYBIND:
                     return <KeybindInput
-                        value={setting.value}
+                        value={setting.currentValue !== undefined ? setting.currentValue : setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
                     />;
                 case MULTI_KEYBIND:
                     return <KeybindInput />; // TODO: Fixme
                 case STRING:
-                    return <TextInput />;
+                    return <TextInput
+                        value={setting.currentValue??setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.target.value);
+                        }}
+                    />;
                 case OPTION:
                     return <OptionsInput
-                        value={setting.value.value}
+                        value={setting.currentValue??setting.value.value}
                         options={setting.value.options}
                         allowEmpty={setting.allowEmpty}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.value);
+                        }}
                     />;
                 default:
                     return <div></div>;
@@ -177,22 +193,14 @@ class Settings extends Component
                 return <></>;
             }
 
-            const debug = JSON.parse(DEBUG_MODS);
-
             return (
                 <>
-                    {Object.entries(debug[this.props.settings.selectedMod]).map((setting) => (
+                    {Object.entries(this.props.settings.modSettings[this.props.settings.selectedMod]).map((setting) => (
                         <div className="settings-row" key={setting[0]}>
                             <h3>{setting[1].displayName??""}</h3>
-                            {renderModSetting(setting[1])}
+                            {renderModSetting(setting[0], setting[1])}
                         </div>
                     ))}
-                    {/*Object.entries(this.props.settings.modSettings[this.props.settings.selectedMod]).map((setting) => (
-                        <div className="settings-row" key={setting[0]}>
-                            <h3>{setting[1].displayName??""}</h3>
-                            {renderModSetting(setting[1])}
-                        </div>
-                    ))*/}
                 </>
             );
         }
@@ -203,19 +211,6 @@ class Settings extends Component
                     <TextInput value={this.state.modName} onChange={this._onChangeModName} placeholder="Search..." />
                 </div>
                 <div className="mod-list" style={{ overflowX: 'hidden' }} ref={this._onModList}>
-                    {Object.keys(JSON.parse(DEBUG_MODS)).filter((key) => {
-                        return key.toLowerCase().search(this.state.modName.toLowerCase()) != -1;
-                    }).map((key) => (
-                        <div
-                            className={"mod" + (this.props.settings.selectedMod === key ? " active" : "")}
-                            key={key}
-                            onClick={() => this._onSelectMod(key)}
-                        >
-                            <span>
-                                {key??""}
-                            </span>
-                        </div>
-                    ))}
                     {Object.keys(this.props.settings.modSettings).filter((key) => {
                         return key.toLowerCase().search(this.state.modName.toLowerCase()) != -1;
                     }).map((key) => (
@@ -285,6 +280,15 @@ class Settings extends Component
             </div>
         );
     }
+
+    _onChangeModInput = (settingKey, value) => {
+        this.props.setSettingValue(
+            this.props.settings.modSettings,
+            this.props.settings.selectedMod,
+            settingKey,
+            value
+        );
+    };
 
     _onChangeModName = (e) =>
     {
@@ -473,6 +477,19 @@ const mapDispatchToProps = (dispatch) => {
         },
         setSettingsSelectedMod: (selectedMod) => {
             dispatch({ type: ActionTypes.SET_SETTINGS_SELECTED_MOD, selectedMod: selectedMod });
+        },
+        setSettingValue: (modSettings, selectedMod, settingKey, value) => {
+            let settings = {
+                ...modSettings,
+                [selectedMod]: {
+                    ...modSettings[selectedMod],
+                    [settingKey]: {
+                        ...modSettings[selectedMod][settingKey],
+                        currentValue: value,
+                    },
+                },
+            };
+            dispatch({ type: ActionTypes.SET_MOD_SETTINGS, settings: settings });
         },
     };
 };
