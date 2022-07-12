@@ -299,8 +299,9 @@ const toStandardOrNumpadKey = (e, standardKey, numpadKey) => {
 
 export const getInputDeviceKeyFromKeyboardEvent = (e) => {
   switch (e.key) {
-    case "Escape":
-      return INPUT_DEVICE_KEY_Escape;
+    // Disable as escape is reserved
+    // case "Escape":
+    //   return INPUT_DEVICE_KEY_Escape;
     case "1":
       return toStandardOrNumpadKey(e, INPUT_DEVICE_KEY_1, INPUT_DEVICE_KEY_Numpad1);
     case "2":
@@ -475,8 +476,9 @@ export const getInputDeviceKeyFromKeyboardEvent = (e) => {
       return INPUT_DEVICE_KEY_ScrollLock;
     case "+":
       return INPUT_DEVICE_KEY_Add;
-    case "F11":
-      return INPUT_DEVICE_KEY_F11;
+    // Disable F11 as it disables the UI
+    // case "F11":
+    //   return INPUT_DEVICE_KEY_F11;
     case "F12":
       return INPUT_DEVICE_KEY_F12;
     case "F13":
@@ -549,19 +551,21 @@ export const getInputDeviceKeyFromKeyboardEvent = (e) => {
       return INPUT_DEVICE_KEY_Insert;
     case "Delete":
       return INPUT_DEVICE_KEY_Delete;
-    case "Meta":
-        if (e.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT)
-            return INPUT_DEVICE_KEY_LeftWin;
-        else
-            return INPUT_DEVICE_KEY_RightWin;
+    // Disable windows key as it wont work
+    // case "Meta":
+    //     if (e.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT)
+    //         return INPUT_DEVICE_KEY_LeftWin;
+    //     else
+    //         return INPUT_DEVICE_KEY_RightWin;
     case "ContextMenu":
       return INPUT_DEVICE_KEY_AppMenu;
-    case "Power":
-      return INPUT_DEVICE_KEY_Power;
-    case "Standby":
-      return INPUT_DEVICE_KEY_Sleep;
-    case "WakeUp":
-      return INPUT_DEVICE_KEY_Wake;
+    // Disable power related buttons
+    // case "Power":
+    //   return INPUT_DEVICE_KEY_Power;
+    // case "Standby":
+    //   return INPUT_DEVICE_KEY_Sleep;
+    // case "WakeUp":
+    //   return INPUT_DEVICE_KEY_Wake;
     case "BrowserSearch":
       return INPUT_DEVICE_KEY_WebSearch;
     case "BrowserFavorites":

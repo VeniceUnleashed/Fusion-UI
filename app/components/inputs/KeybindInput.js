@@ -47,9 +47,15 @@ export default class KeybindInput extends Component
     {
         e.preventDefault();
 
+        // Cancel
+        if (e.key === 'Escape') {
+            this.inputRef.current.blur();
+            return;
+        }
+
         const key = getInputDeviceKeyFromKeyboardEvent(e);
         if (!key) {
-            console.warn(`Failed to map ${e.key}(${e.keyCode}) to an InputDeviceKey`);
+            console.warn(`${e.key}(${e.keyCode}) is not a supported InputDeviceKey`);
             return;
         }
 
