@@ -198,6 +198,8 @@ class ServerFilters extends Component
         for (const tag of tagSet)
             tagOptions.push({ value: tag, label: tag });
 
+        tagOptions.sort((a, b) => a.value.localeCompare(b.value));
+
         const selectedTags = [];
 
         for (const tag of this.state.tags)
