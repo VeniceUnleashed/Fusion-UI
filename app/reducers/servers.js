@@ -28,6 +28,8 @@ import * as ServerConnectStatus from '../constants/ServerConnectStatus'
 import * as ConnectionStatus from '../constants/ConnectionStatus'
 import ServerEntry from "../components/ServerEntry";
 
+import { getServerPlayers } from "../utils/servers"
+
 const initialState = {
     originalListing: [],
     listing: [],
@@ -93,11 +95,14 @@ function sortByGamemodeDesc(a, b)
 
 function sortByPlayersAsc(a, b)
 {
-    let playerCountLeft = parseInt(a.players, 10);
+    const playersA = getServerPlayers(a)
+    const playersB = getServerPlayers(b)
+
+    let playerCountLeft = parseInt(playersA, 10);
     let spectatorCountLeft = parseInt(a.variables.spectators, 10);
     playerCountLeft -= spectatorCountLeft;
 
-    let playerCountRight = parseInt(b.players, 10);
+    let playerCountRight = parseInt(playersB, 10);
     let spectatorCountRight = parseInt(b.variables.spectators, 10);
     playerCountRight -= spectatorCountRight;
 
@@ -112,11 +117,14 @@ function sortByPlayersAsc(a, b)
 
 function sortByPlayersDesc(a, b)
 {
-    let playerCountLeft = parseInt(a.players, 10);
+    const playersA = getServerPlayers(a)
+    const playersB = getServerPlayers(b)
+
+    let playerCountLeft = parseInt(playersA, 10);
     let spectatorCountLeft = parseInt(a.variables.spectators, 10);
     playerCountLeft -= spectatorCountLeft;
 
-    let playerCountRight = parseInt(b.players, 10);
+    let playerCountRight = parseInt(playersB, 10);
     let spectatorCountRight = parseInt(b.variables.spectators, 10);
     playerCountRight -= spectatorCountRight;
 
