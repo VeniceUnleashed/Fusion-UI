@@ -5,7 +5,7 @@ export function getServerSpectators(server) {
 }
 
 export function getServerPlayersOnly(server) {
-    if (server.variables.players) {
+    if ('players' in server.variables) {
         const playersNum = parseInt(server.variables.players, 10);
 
         if (!isNaN(playersNum)) {
