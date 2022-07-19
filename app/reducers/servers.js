@@ -28,7 +28,7 @@ import * as ServerConnectStatus from '../constants/ServerConnectStatus'
 import * as ConnectionStatus from '../constants/ConnectionStatus'
 import ServerEntry from "../components/ServerEntry";
 
-import { getServerPlayers } from "../utils/servers"
+import { getServerPlayersOnly } from '../utils/servers';
 
 const initialState = {
     originalListing: [],

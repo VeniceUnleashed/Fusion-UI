@@ -4,13 +4,18 @@ export function getServerSpectators(server) {
     return !isNaN(spectatorsNum) ? spectatorsNum : 0;
 }
 
-export function getServerPlayers(server) {
-    const players = server.variables.players ? server.variables.players : server.players;
-    const playersNum = parseInt(players, 10);
-
-    return !isNaN(playersNum) ? playersNum : 0;
-}
-
 export function getServerPlayersOnly(server) {
-    return getServerPlayers(server) - getServerSpectators(server);
+    if (server.variables.players) {
+        const playersNum = parseInt(server.variables.players, 10);
+
+        return !isNaN(playersNum) ? playersNum : 0;
+    }
+
+    const playersNum = parseInt(server.players);
+
+    const playersCount = !isNaN(playersNum) ? playersNum : 0;
+
+    const spectatorsCount = getServerSpectators(server);
+
+    return playersCount - spectatorsCount;
 }

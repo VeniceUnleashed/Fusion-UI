@@ -3,7 +3,7 @@ import * as ActionTypes from "../constants/ActionTypes";
 import { connect } from 'react-redux'
 import ServerPasswordPopup from "../popups/ServerPasswordPopup";
 import ServerPerformancePopup from "../popups/ServerPerformancePopup";
-import { getServerPlayers, getServerSpectators } from '../utils/servers';
+import { getServerPlayersOnly, getServerSpectators } from '../utils/servers';
 
 class ServerEntry extends Component
 {
