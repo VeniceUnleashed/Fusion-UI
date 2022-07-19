@@ -8,7 +8,9 @@ export function getServerPlayersOnly(server) {
     if (server.variables.players) {
         const playersNum = parseInt(server.variables.players, 10);
 
-        return !isNaN(playersNum) ? playersNum : 0;
+        if (!isNaN(playersNum)) {
+            return playersNum;
+        }
     }
 
     const playersNum = parseInt(server.players);
