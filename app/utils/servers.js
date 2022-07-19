@@ -19,5 +19,7 @@ export function getServerPlayersOnly(server) {
 
     const spectatorsCount = getServerSpectators(server);
 
-    return playersCount - spectatorsCount;
+    const playersOnly = playersCount - spectatorsCount
+
+    return playersOnly > 0 ? playersOnly : 0;
 }
