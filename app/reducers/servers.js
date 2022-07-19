@@ -95,14 +95,14 @@ function sortByGamemodeDesc(a, b)
 
 function sortByPlayersAsc(a, b)
 {
-    const playersA = getServerPlayers(a)
-    const playersB = getServerPlayers(b)
+    const playersLeft = getServerPlayers(a)
+    const playersRight = getServerPlayers(b)
 
-    let playerCountLeft = parseInt(playersA, 10);
+    let playerCountLeft = parseInt(playersLeft, 10);
     let spectatorCountLeft = parseInt(a.variables.spectators, 10);
     playerCountLeft -= spectatorCountLeft;
 
-    let playerCountRight = parseInt(playersB, 10);
+    let playerCountRight = parseInt(playersRight, 10);
     let spectatorCountRight = parseInt(b.variables.spectators, 10);
     playerCountRight -= spectatorCountRight;
 
@@ -117,14 +117,14 @@ function sortByPlayersAsc(a, b)
 
 function sortByPlayersDesc(a, b)
 {
-    const playersA = getServerPlayers(a)
-    const playersB = getServerPlayers(b)
+    const playersLeft = getServerPlayers(a)
+    const playersRight = getServerPlayers(b)
 
-    let playerCountLeft = parseInt(playersA, 10);
+    let playerCountLeft = parseInt(playersLeft, 10);
     let spectatorCountLeft = parseInt(a.variables.spectators, 10);
     playerCountLeft -= spectatorCountLeft;
 
-    let playerCountRight = parseInt(playersB, 10);
+    let playerCountRight = parseInt(playersRight, 10);
     let spectatorCountRight = parseInt(b.variables.spectators, 10);
     playerCountRight -= spectatorCountRight;
 
