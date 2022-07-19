@@ -3,6 +3,7 @@ import * as ActionTypes from "../constants/ActionTypes";
 import { connect } from 'react-redux'
 import ServerPasswordPopup from "../popups/ServerPasswordPopup";
 import ServerPerformancePopup from "../popups/ServerPerformancePopup";
+import { getServerPlayers, getServerSpectators } from '../utils/servers';
 
 class ServerEntry extends Component
 {
@@ -130,17 +131,8 @@ class ServerEntry extends Component
         if (this.props.isFavorite)
             serverClassName += ' favorite';
 
-        let playerCount = parseInt(server.players, 10);
-        let spectatorCount = parseInt(server.variables.spectators, 10);
-        playerCount -= spectatorCount;
-
-        if ('players' in server.variables) {
-            const players = parseInt(server.variables.players, 10);
-
-            if (!isNaN(players)) {
-                playerCount = players;
-            }
-        }
+        const playerCount = getServerPlayersOnly(server);
+        const spectatorCount = getServerSpectators(server);
 
         const compatibility = ServerEntry.checkServerCompatibility(
             this.props.server,
