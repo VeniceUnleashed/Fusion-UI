@@ -166,13 +166,9 @@
 }
 
 #settings-popup {
-  padding-top: 7.407407407407407vh; // 80px
-
-  h1 {
-    display: block;
-    font-weight: 500;
-    font-size: 4.62962962962963vh; // 50px
-    text-transform: uppercase;
-    margin-bottom: 1.851851851851852vh; // 20px
+  height: 100%;
+  
+  .settings {
+    margin: 0 auto;
   }
 }

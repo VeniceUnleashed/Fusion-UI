@@ -73,69 +73,73 @@ class Settings extends Component
             selectedDevice = 0; // I don't think we need this one
         }
 
+        let audioSettings = (
+            <>
+                <h2>Audio settings</h2>
+                <div className="settings-row">
+                    <h3>Master volume</h3>
+                    <Slider onChange={this._onMasterVolumeChange} value={this.props.settings.currentSettings.masterVolume} />
+                </div>
+                <div className="settings-row">
+                    <h3>Music volume</h3>
+                    <Slider onChange={this._onMusicVolumeChange} value={this.props.settings.currentSettings.musicVolume} />
+                </div>
+                <div className="settings-row">
+                    <h3>Dialogue volume</h3>
+                    <Slider onChange={this._onDialogueVolumeChange} value={this.props.settings.currentSettings.dialogueVolume} />
+                </div>
+                <h2>VoIP settings</h2>
+                <div className="settings-row">
+                    <h3>Microphone Device</h3>
+                    <Select
+                        options={voipDevices}
+                        isSearchable={false}
+                        value={voipDevices[selectedDevice]}
+                        onChange={this._onVoipDeviceChange}
+                        styles={SELECT_STYLE}
+                    />
+                </div>
+                <div className="settings-row">
+                    <h3>Voice activation threshold</h3>
+                    <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
+                </div>
+            </>
+        );
+
         let gameSettings = (
             <div className="general-settings">
                 <h2>Display settings</h2>
-                <div className="settings-container">
-                    <div className="settings-row">
-                        <h3>Display mode</h3>
-                        <Select
-                            options={displayModeOptions}
-                            isSearchable={false}
-                            value={displayModeOptions[this.props.settings.currentSettings.fullscreen ? 0 : 1]}
-                            onChange={this._onDisplayModeChange}
-                            styles={SELECT_STYLE}
-                        />
-                    </div>
-                    <div className="settings-row">
-                        <h3>Fullscreen resolution</h3>
-                        <Select
-                            options={fullscreenOptions}
-                            isSearchable={false}
-                            value={fullscreenOptions[this.props.settings.currentSettings.selectedResolution]}
-                            onChange={this._onResolutionChange}
-                            styles={SELECT_STYLE}
-                        />
-                    </div>
-                    <div className="settings-row">
-                        <h3>Fullscreen monitor</h3>
-                        <Select
-                            options={screenOptions}
-                            isSearchable={false}
-                            value={screenOptions[this.props.settings.currentSettings.selectedScreen]}
-                            onChange={this._onScreenChange}
-                            styles={SELECT_STYLE}
-                        />
-                    </div>
-                    <h2>Audio settings</h2>
-                    <div className="settings-row">
-                        <h3>Master volume</h3>
-                        <Slider onChange={this._onMasterVolumeChange} value={this.props.settings.currentSettings.masterVolume} />
-                    </div>
-                    <div className="settings-row">
-                        <h3>Music volume</h3>
-                        <Slider onChange={this._onMusicVolumeChange} value={this.props.settings.currentSettings.musicVolume} />
-                    </div>
-                    <div className="settings-row">
-                        <h3>Dialogue volume</h3>
-                        <Slider onChange={this._onDialogueVolumeChange} value={this.props.settings.currentSettings.dialogueVolume} />
-                    </div>
-                    <h2>VoIP settings</h2>
-                    <div className="settings-row">
-                        <h3>Microphone Device</h3>
-                        <Select
-                            options={voipDevices}
-                            isSearchable={false}
-                            value={voipDevices[selectedDevice]}
-                            onChange={this._onVoipDeviceChange}
-                            styles={SELECT_STYLE}
-                        />
-                    </div>
-                    <div className="settings-row">
-                        <h3>Voice activation threshold</h3>
-                        <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
-                    </div>
+                <div className="settings-row">
+                    <h3>Display mode</h3>
+                    <Select
+                        options={displayModeOptions}
+                        isSearchable={false}
+                        value={displayModeOptions[this.props.settings.currentSettings.fullscreen ? 0 : 1]}
+                        onChange={this._onDisplayModeChange}
+                        styles={SELECT_STYLE}
+                    />
                 </div>
+                <div className="settings-row">
+                    <h3>Fullscreen resolution</h3>
+                    <Select
+                        options={fullscreenOptions}
+                        isSearchable={false}
+                        value={fullscreenOptions[this.props.settings.currentSettings.selectedResolution]}
+                        onChange={this._onResolutionChange}
+                        styles={SELECT_STYLE}
+                    />
+                </div>
+                <div className="settings-row">
+                    <h3>Fullscreen monitor</h3>
+                    <Select
+                        options={screenOptions}
+                        isSearchable={false}
+                        value={screenOptions[this.props.settings.currentSettings.selectedScreen]}
+                        onChange={this._onScreenChange}
+                        styles={SELECT_STYLE}
+                    />
+                </div>
+                {audioSettings}
             </div>
         );
 
@@ -242,9 +246,10 @@ class Settings extends Component
 
         let popupHeader = null;
         if (this.props.popup) {
-            gameSettings = null;
-            popupHeader = (
-                <h1>VU Options</h1>
+            gameSettings = (
+                <div className="general-settings">
+                    {audioSettings}
+                </div>
             );
         }
 
