@@ -10,7 +10,6 @@ export default class BoolInput extends Component
             <label className="bool-input">
                 <input
                     type="checkbox"
-                    defaultChecked={this.props.value}
                     checked={this.props.value}
                     onChange={this.props.onChange}
                 />

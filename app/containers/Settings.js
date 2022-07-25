@@ -165,7 +165,7 @@ class Settings extends Component
                         }}
                     />;
                 case MULTI_KEYBIND:
-                    return <KeybindInput />; // TODO: Fixme
+                    return  <>Unsupported</>; // TODO: Fixme
                 case STRING:
                     return <TextInput
                         value={setting.currentValue??setting.value}
@@ -404,6 +404,31 @@ class Settings extends Component
         if (e)
             e.preventDefault();
 
+        let settings = {
+            ...this.props.settings.modSettings,
+        };
+        Object.entries(this.props.settings.modSettings).forEach((mod) => {
+            const modName = mod[0];
+            Object.entries(mod[1]).forEach((setting) => {
+                const settingName = setting[0];
+                const value = setting[1].currentValue;
+                if (value !== undefined) {
+                    console.log(modName, settingName, value);
+                    settings = {
+                        ...settings,
+                        [modName]: {
+                            ...settings[modName],
+                            [settingName]: {
+                                ...settings[modName][settingName],
+                                currentValue: undefined,
+                            },
+                        },
+                    };
+                }
+            });
+        });
+        this.props.setSettings(settings);
+
         WebUI.Call('RefreshSettings');
     };
 
@@ -519,6 +544,9 @@ const mapDispatchToProps = (dispatch) => {
                     },
                 },
             };
+            dispatch({ type: ActionTypes.SET_MOD_SETTINGS, settings: settings });
+        },
+        setSettings: (settings) => {
             dispatch({ type: ActionTypes.SET_MOD_SETTINGS, settings: settings });
         },
     };
