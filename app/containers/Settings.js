@@ -413,7 +413,6 @@ class Settings extends Component
                 const settingName = setting[0];
                 const value = setting[1].currentValue;
                 if (value !== undefined) {
-                    console.log(modName, settingName, value);
                     settings = {
                         ...settings,
                         [modName]: {
