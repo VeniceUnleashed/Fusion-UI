@@ -199,7 +199,9 @@ class Settings extends Component
 
             return (
                 <>
-                    {Object.entries(this.props.settings.modSettings[this.props.settings.selectedMod]).map((setting) => (
+                    {Object.entries(this.props.settings.modSettings[this.props.settings.selectedMod])
+                        .sort((settingA, settingB) => settingA[1].displayName.localeCompare(settingB[1].displayName))
+                        .map((setting) => (
                         <div className="settings-row" key={setting[0]}>
                             <h3>{setting[1].displayName??""}</h3>
                             {renderModSetting(setting[0], setting[1])}
@@ -217,7 +219,7 @@ class Settings extends Component
                 <div className="mod-list" style={{ overflowX: 'hidden' }} ref={this._onModList}>
                     {Object.keys(this.props.settings.modSettings).filter((key) => {
                         return key.toLowerCase().search(this.state.modName.toLowerCase()) != -1;
-                    }).map((key) => (
+                    }).sort((a, b) => a.localeCompare(b)).map((key) => (
                         <div
                             className={"mod" + (this.props.settings.selectedMod === key ? " active" : "")}
                             key={key}
