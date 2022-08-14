@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
-import Slider from '../components/Slider';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import * as ActionTypes from "../constants/ActionTypes";
 import ApplySettingsPopup from "../popups/ApplySettingsPopup";
-import VoipSlider from "../components/VoipSlider";
 import { SELECT_STYLE } from "../constants/Styles";
 import TextInput from "../components/inputs/TextInput";
 import BoolInput from "../components/inputs/BoolInput";
@@ -21,6 +19,7 @@ import {
     STRING,
     OPTION
 } from "../constants/ModSettingType";
+import AudioSettings from "../components/settings/AudioSettings";
 
 class Settings extends Component
 {
@@ -55,57 +54,6 @@ class Settings extends Component
             { value: false, label: 'Windowed' },
         ];
 
-        const voipDevices = [];
-        let selectedDevice = 0;
-        for (let i = 0; i < this.props.voip.devices.length; ++i)
-        {
-            let device = this.props.voip.devices[i];
-            voipDevices.push({ value: device.id, label: device.name });
-
-            if (device.id === this.props.voip.selectedDevice) {
-                selectedDevice = i;
-            }
-        }
-
-        if (voipDevices.length === 0)
-        {
-            voipDevices.push({ value: -1, label: 'No microphone detected' });
-            selectedDevice = 0; // I don't think we need this one
-        }
-
-        let audioSettings = (
-            <>
-                <h2>Audio settings</h2>
-                <div className="settings-row">
-                    <h3>Master volume</h3>
-                    <Slider onChange={this._onMasterVolumeChange} value={this.props.settings.currentSettings.masterVolume} />
-                </div>
-                <div className="settings-row">
-                    <h3>Music volume</h3>
-                    <Slider onChange={this._onMusicVolumeChange} value={this.props.settings.currentSettings.musicVolume} />
-                </div>
-                <div className="settings-row">
-                    <h3>Dialogue volume</h3>
-                    <Slider onChange={this._onDialogueVolumeChange} value={this.props.settings.currentSettings.dialogueVolume} />
-                </div>
-                <h2>VoIP settings</h2>
-                <div className="settings-row">
-                    <h3>Microphone Device</h3>
-                    <Select
-                        options={voipDevices}
-                        isSearchable={false}
-                        value={voipDevices[selectedDevice]}
-                        onChange={this._onVoipDeviceChange}
-                        styles={SELECT_STYLE}
-                    />
-                </div>
-                <div className="settings-row">
-                    <h3>Voice activation threshold</h3>
-                    <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
-                </div>
-            </>
-        );
-
         let gameSettings = (
             <div className="general-settings">
                 <h2>Display settings</h2>
@@ -139,7 +87,7 @@ class Settings extends Component
                         styles={SELECT_STYLE}
                     />
                 </div>
-                {audioSettings}
+                <AudioSettings />
             </div>
         );
 
@@ -250,7 +198,7 @@ class Settings extends Component
         if (this.props.popup) {
             gameSettings = (
                 <div className="general-settings">
-                    {audioSettings}
+                    <AudioSettings />
                 </div>
             );
         }
@@ -453,31 +401,6 @@ class Settings extends Component
         this.props.setScreenIndex(resolution.value);
     };
 
-    _onMasterVolumeChange = (volume) =>
-    {
-        this.props.setMasterVolume(volume);
-    };
-
-    _onMusicVolumeChange = (volume) =>
-    {
-        this.props.setMusicVolume(volume);
-    };
-
-    _onDialogueVolumeChange = (volume) =>
-    {
-        this.props.setDialogueVolume(volume);
-    };
-
-    _onVoipDeviceChange = (device) =>
-    {
-        WebUI.Call('VoipSelectDevice', device.value);
-    };
-
-    _onVoipCutoffVolumeChange = (volume) =>
-    {
-        WebUI.Call('VoipCutoffVolume', volume);
-    };
-
     componentDidMount()
     {
         WebUI.Call('RefreshSettings');
@@ -517,15 +440,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         setScreenIndex: (index) => {
             dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { selectedScreen: index } });
-        },
-        setMasterVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { masterVolume: volume } });
-        },
-        setMusicVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { musicVolume: volume } });
-        },
-        setDialogueVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { dialogueVolume: volume } });
         },
         setFullscreen: (fullscreen) => {
             dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { fullscreen } });

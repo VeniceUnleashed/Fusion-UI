@@ -27,7 +27,7 @@ export default class OptionsInput extends Component
                 value={val}
                 options={options}
                 onChange={this.props.onChange}
-                isClearable={this.props.allowEmpty??false}
+                isClearable={!!this.props.allowEmpty}
             />
         );
     }
