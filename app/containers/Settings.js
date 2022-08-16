@@ -11,6 +11,7 @@ import BoolInput from "../components/inputs/BoolInput";
 import NumberInput from "../components/inputs/NumberInput";
 import KeybindInput from "../components/inputs/KeybindInput";
 import OptionsInput from "../components/inputs/OptionsInput";
+import MultiKeybindInput from '../components/inputs/MultiKeybindInput';
 import {
     BOOL,
     NUMBER,
@@ -117,7 +118,12 @@ class Settings extends Component
                         }}
                     />;
                 case MULTI_KEYBIND:
-                    return  <>Unsupported</>; // TODO: Fixme
+                    return  <MultiKeybindInput
+                        value={setting.currentValue ?? setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
+                    />
                 case STRING:
                     return <TextInput
                         value={setting.currentValue??setting.value}

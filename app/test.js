@@ -743,7 +743,12 @@ setTimeout(() => {
                 "type": 2,
                 "displayName": "Interactive Notification Accept Key",
                 "value": 201
-            }
+            },
+            "Tac_Rose_Multi_Key": {
+                "type": 3,
+                "displayName": "Tac-Rose Multi Key",
+                "value": [20]
+            },
         },
         "voipmod-main": {
             "DefaultVoipVolume": {
