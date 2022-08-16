@@ -20,7 +20,7 @@ import {
     STRING,
     OPTION
 } from "../constants/ModSettingType";
-import AudioSettings from "../components/settings/AudioSettings";
+import AudioSettings from "./AudioSettings";
 
 class Settings extends Component
 {

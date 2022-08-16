@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
-import * as ActionTypes from "../../constants/ActionTypes";
-import { SELECT_STYLE } from "../../constants/Styles";
-import VoipSlider from "../VoipSlider";
-import Slider from "../Slider";
+import * as ActionTypes from "../constants/ActionTypes";
+import { SELECT_STYLE } from "../constants/Styles";
+import VoipSlider from "../components/VoipSlider";
+import Slider from "../components/Slider";
 
 class AudioSettings extends Component
 {
