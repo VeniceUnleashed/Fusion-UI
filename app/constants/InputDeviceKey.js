@@ -445,7 +445,10 @@ export const getInputDeviceKeyFromKeyboardEvent = (e) => {
     case "*":
       return INPUT_DEVICE_KEY_Multiply;
     case "Alt":
-      return INPUT_DEVICE_KEY_LeftAlt;
+      if (e.location === KeyboardEvent.DOM_KEY_LOCATION_LEFT)
+            return INPUT_DEVICE_KEY_LeftAlt;
+        else
+            return INPUT_DEVICE_KEY_RightAlt;
     case " ":
       return INPUT_DEVICE_KEY_Space;
     case "CapsLock":
