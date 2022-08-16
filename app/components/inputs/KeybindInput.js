@@ -11,6 +11,7 @@ export default class KeybindInput extends Component
 
         this.state = {
             editing: false,
+            originalValue: props.value
         };
         this.inputRef = React.createRef();
     };
@@ -26,21 +27,33 @@ export default class KeybindInput extends Component
                     placeholder={this.state.editing ? "Press a key..." : (this.props.placeholder??"")}
                     onKeyDown={this._onKeyDown}
                     onClick={() => this.setState({ editing: true })}
-                    onBlur={() => this.setState({ editing: false })}
+                    onBlur={this._onCancel}
                     readOnly
                 />
                 {this.state.editing &&
-                    <button className="keybind-reset" onClick={() => this.setState({ editing: false })}>
+                    <button className="keybind-reset" onClick={this._onCancel}>
                         Cancel
                     </button>
                 }
-                {(!this.state.editing && this.props.value !== "") &&
-                    <button className="keybind-reset" onClick={() => this.props.onChange("")}>
+                {(!this.state.editing && this.props.value !== this.state.originalValue) &&
+                    <button className="keybind-reset" onClick={this._onReset}>
                         Reset
                     </button>
                 }
             </div>
         );
+    }
+
+    _onCancel = (e) =>
+    {
+        e.preventDefault();
+
+        this.setState({ editing: false });
+    }
+
+    _onReset = (e) =>
+    {
+        this.props.onChange(this.state.originalValue);
     }
 
     _onKeyDown = (e) =>
