@@ -8,6 +8,7 @@ import {
     SET_PLAYER_DATA,
     CHANGE_ORIGIN_LINK_STATUS,
     SET_LOGIN_TOKEN,
+    SET_LOGIN_DATA,
     CHANGE_CONNECTION_STATUS,
     SET_ACCOUNT_STORAGE,
     SET_ACCOUNT_STORAGE_VALUE,
@@ -31,6 +32,7 @@ const initialState = {
     playerLoginStatus: 0,
     originLinkStatus: 0,
     loginToken: null,
+    loginData: null,
     accountStorage: {},
 };
 
@@ -81,6 +83,13 @@ export default function user(state = initialState, action)
         {
             let finalState = createStateCopy(state);
             finalState.loginToken = action.data;
+            return finalState;
+        }
+
+        case SET_LOGIN_DATA:
+        {
+            let finalState = createStateCopy(state);
+            finalState.loginData = action.data;
             return finalState;
         }
 
