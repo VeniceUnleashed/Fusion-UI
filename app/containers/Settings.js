@@ -1,91 +1,43 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Select from 'react-select';
-import Slider from '../components/Slider';
+import PerfectScrollbar from 'perfect-scrollbar';
 
-import * as ActionTypes from '../constants/ActionTypes'
+import * as ActionTypes from "../constants/ActionTypes";
 import ApplySettingsPopup from "../popups/ApplySettingsPopup";
-import VoipSlider from "../components/VoipSlider";
+import { SELECT_STYLE } from "../constants/Styles";
+import TextInput from "../components/inputs/TextInput";
+import BoolInput from "../components/inputs/BoolInput";
+import NumberInput from "../components/inputs/NumberInput";
+import KeybindInput from "../components/inputs/KeybindInput";
+import OptionsInput from "../components/inputs/OptionsInput";
+import MultiKeybindInput from '../components/inputs/MultiKeybindInput';
+import {
+    BOOL,
+    NUMBER,
+    KEYBIND,
+    MULTI_KEYBIND,
+    STRING,
+    OPTION
+} from "../constants/ModSettingType";
+import AudioSettings from "./AudioSettings";
 
 class Settings extends Component
 {
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            modName: ""
+        };
+        this.modListScrollbar = null;
+        this.modSettingsScrollbar = null;
+    };
+
     render()
     {
-        const selectStyle = {
-            control: (provided) => ({
-                ...provided,
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                borderRadius: 0,
-                border: '0.1574074074074074vh solid rgba(255, 255, 255, 0.7)',
-                '&:hover': {
-                    borderColor: 'rgba(255, 255, 255, 1)'
-                },
-                minHeight: 0,
-                height: '3.703703703703704vh', // 40px
-            }),
-            singleValue: (provided) => ({
-                ...provided,
-                color: '#fff',
-                fontWeight: 300,
-                fontSize: '1.851851851851852vh', // 20px
-            }),
-            option: (provided, state) => {
-                let backgroundColor = 'transparent';
-                let color = '#fff';
-                let fontWeight = 300;
-
-                if (state.isFocused && !state.isSelected)
-                {
-                    backgroundColor = 'rgba(255, 255, 255, 0.2)';
-                }
-                else if (state.isSelected)
-                {
-                    backgroundColor = 'rgba(255, 255, 255, 0.8)';
-                    color = '#000';
-                    fontWeight = 500;
-                }
-
-                return {
-                    ...provided,
-                    backgroundColor,
-                    color,
-                    fontWeight,
-                    fontSize: '1.851851851851852vh', // 20px
-                    padding: '0.7407407407407407vh 1.111111111111111vh', // 8px 12px,
-                };
-            },
-            menu: (provided) => ({
-                ...provided,
-                backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                backdropFilter: 'blur(20px)',
-                willChange: 'top',
-                borderRadius: 0,
-                boxShadow: 'none',
-                border: '0.1574074074074074vh solid rgba(255, 255, 255, 0.4)'
-            }),
-            dropdownIndicator: (provided) => ({
-                ...provided,
-                padding: '0.7407407407407407vh', // 8px
-                svg: {
-                    height: '1.851851851851852vh', // 20px
-                    width: '1.851851851851852vh', // 20px
-                },
-            }),
-            indicatorSeparator: (provided) => ({
-                ...provided,
-                width: '0.1574074074074074vh', // 1.7px
-                marginTop: '0.7407407407407407vh', // 8px
-                marginBottom: '0.7407407407407407vh', // 8px
-            }),
-            valueContainer: (provided) => ({
-                ...provided,
-                padding: '0 0.7407407407407407vh', // 0 8px
-                height: '3.546296296296296vh', // 38.3px
-            }),
-        };
-
         const fullscreenOptions = [];
-
         for (let i = 0; i < this.props.settings.currentSettings.resolutions[this.props.settings.currentSettings.selectedScreen].length; ++i)
         {
             const resolution = this.props.settings.currentSettings.resolutions[this.props.settings.currentSettings.selectedScreen][i];
@@ -93,7 +45,6 @@ class Settings extends Component
         }
 
         const screenOptions = [];
-
         for (let i = 0; i < this.props.settings.currentSettings.screens; ++i)
         {
             screenOptions.push({ value: i, label: 'Monitor #' + (i + 1) })
@@ -104,115 +55,184 @@ class Settings extends Component
             { value: false, label: 'Windowed' },
         ];
 
-        const voipDevices = [];
-        let selectedDevice = 0;
-
-        for (let i = 0; i < this.props.voip.devices.length; ++i)
-        {
-            let device = this.props.voip.devices[i];
-            voipDevices.push({ value: device.id, label: device.name });
-
-            if (device.id === this.props.voip.selectedDevice)
-                selectedDevice = i;
-        }
-
-        if (voipDevices.length === 0)
-        {
-            voipDevices.push({ value: -1, label: 'No microphone detected' });
-            selectedDevice = 0;
-        }
-
         let gameSettings = (
-            <>
-                <h2>Game settings</h2>
-                <div className="settings-container">
-                    <div className="settings-row">
-                        <div className="left">
-                            <h3>Display mode</h3>
-                            <Select
-                                options={displayModeOptions}
-                                isSearchable={false}
-                                value={displayModeOptions[this.props.settings.currentSettings.fullscreen ? 0 : 1]}
-                                onChange={this._onDisplayModeChange}
-                                styles={selectStyle}
-                            />
-                        </div>
-                        <div className="middle">
-                            <h3>Fullscreen resolution</h3>
-                            <Select
-                                options={fullscreenOptions}
-                                isSearchable={false}
-                                value={fullscreenOptions[this.props.settings.currentSettings.selectedResolution]}
-                                onChange={this._onResolutionChange}
-                                styles={selectStyle}
-                            />
-                        </div>
-                        <div className="right">
-                            <h3>Fullscreen monitor</h3>
-                            <Select
-                                options={screenOptions}
-                                isSearchable={false}
-                                value={screenOptions[this.props.settings.currentSettings.selectedScreen]}
-                                onChange={this._onScreenChange}
-                                styles={selectStyle}
-                            />
-                        </div>
-                    </div>
-                    <div className="settings-row">
-                        <div className="left">
-                            <h3>Master volume</h3>
-                            <Slider onChange={this._onMasterVolumeChange} value={this.props.settings.currentSettings.masterVolume} />
-                        </div>
-                        <div className="middle">
-                            <h3>Music volume</h3>
-                            <Slider onChange={this._onMusicVolumeChange} value={this.props.settings.currentSettings.musicVolume} />
-                        </div>
-                        <div className="right">
-                            <h3>Dialogue volume</h3>
-                            <Slider onChange={this._onDialogueVolumeChange} value={this.props.settings.currentSettings.dialogueVolume} />
-                        </div>
-                    </div>
+            <div className="general-settings">
+                <h2>Display settings</h2>
+                <div className="settings-row">
+                    <h3>Display mode</h3>
+                    <Select
+                        options={displayModeOptions}
+                        isSearchable={false}
+                        value={displayModeOptions[this.props.settings.currentSettings.fullscreen ? 0 : 1]}
+                        onChange={this._onDisplayModeChange}
+                        styles={SELECT_STYLE}
+                    />
                 </div>
-            </>
+                <div className="settings-row">
+                    <h3>Fullscreen resolution</h3>
+                    <Select
+                        options={fullscreenOptions}
+                        isSearchable={false}
+                        value={fullscreenOptions[this.props.settings.currentSettings.selectedResolution]}
+                        onChange={this._onResolutionChange}
+                        styles={SELECT_STYLE}
+                    />
+                </div>
+                <div className="settings-row">
+                    <h3>Fullscreen monitor</h3>
+                    <Select
+                        options={screenOptions}
+                        isSearchable={false}
+                        value={screenOptions[this.props.settings.currentSettings.selectedScreen]}
+                        onChange={this._onScreenChange}
+                        styles={SELECT_STYLE}
+                    />
+                </div>
+                <AudioSettings />
+            </div>
+        );
+
+        const renderModSetting = (settingKey, setting) => {
+            switch (setting.type) {
+                case BOOL:
+                    return <BoolInput 
+                        value={setting.currentValue??setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.target.checked);
+                        }}
+                    />;
+                case NUMBER:
+                    return <NumberInput
+                        value={setting.currentValue??setting.value.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
+                        min={setting.value.min??0}
+                        max={setting.value.max??100}
+                    />;
+                case KEYBIND:
+                    return <KeybindInput
+                        value={setting.currentValue !== undefined ? setting.currentValue : setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
+                    />;
+                case MULTI_KEYBIND:
+                    return  <MultiKeybindInput
+                        value={setting.currentValue ?? setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e);
+                        }}
+                    />
+                case STRING:
+                    return <TextInput
+                        value={setting.currentValue??setting.value}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.target.value);
+                        }}
+                    />;
+                case OPTION:
+                    return <OptionsInput
+                        value={setting.currentValue??setting.value.value}
+                        options={setting.value.options}
+                        allowEmpty={setting.allowEmpty}
+                        onChange={(e) => {
+                            this._onChangeModInput(settingKey, e.value);
+                        }}
+                    />;
+                default:
+                    return <div></div>;
+            }
+        }
+
+        const renderActiveModSettings = () =>
+        {
+            if (this.props.settings.selectedMod === "") {
+                return <></>;
+            }
+
+            return (
+                <>
+                    {Object.entries(this.props.settings.modSettings[this.props.settings.selectedMod])
+                        .sort((settingA, settingB) => settingA[1].displayName.localeCompare(settingB[1].displayName))
+                        .map((setting) => (
+                        <div className="settings-row" key={setting[0]}>
+                            <h3>{setting[1].displayName??""}</h3>
+                            {renderModSetting(setting[0], setting[1])}
+                        </div>
+                    ))}
+                </>
+            );
+        }
+
+        let modSettings = (
+            <div className="mod-settings-container">
+                <div className="mod-search-bar">
+                    <TextInput value={this.state.modName} onChange={this._onChangeModName} placeholder="Search..." />
+                </div>
+                <div className="mod-list" style={{ overflowX: 'hidden' }} ref={this._onModList}>
+                    {Object.keys(this.props.settings.modSettings).filter((key) => {
+                        return key.toLowerCase().search(this.state.modName.toLowerCase()) != -1;
+                    }).sort((a, b) => a.localeCompare(b)).map((key) => (
+                        <div
+                            className={"mod" + (this.props.settings.selectedMod === key ? " active" : "")}
+                            key={key}
+                            onClick={() => this._onSelectMod(key)}
+                        >
+                            <span>
+                                {key??""}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                {this.props.settings.selectedMod !== "" ?
+                    <div className="mod-settings" style={{ overflowX: 'hidden' }} ref={this._onModSettings}>
+                        <h2>{this.props.settings.selectedMod}</h2>
+                        <div className="settings-container">
+                            {renderActiveModSettings()}
+                        </div>
+                    </div>
+                :
+                    <div className="mod-settings no-mod">
+                        <h3>No mod selected</h3>
+                    </div>
+                }
+            </div>
         );
 
         let popupHeader = null;
-
-        if (this.props.popup)
-        {
-            gameSettings = null;
-
-            popupHeader = (
-                <h1>VU Options</h1>
+        if (this.props.popup) {
+            gameSettings = (
+                <div className="general-settings">
+                    <AudioSettings />
+                </div>
             );
+        }
+
+        const renderActiveTab = () =>
+        {
+            switch (this.props.settings.tab) {
+                default:
+                case "game":
+                    return gameSettings;
+                case "mods":
+                    return modSettings;
+            }
         }
 
         return (
             <div className="settings content-wrapper">
                 {popupHeader}
-                {gameSettings}
-                <h2>VoIP settings</h2>
-                <div className="settings-container">
-                    <div className="settings-row">
-                        <div className="left">
-                            <h3>Microphone Device</h3>
-                            <Select
-                                options={voipDevices}
-                                isSearchable={false}
-                                value={voipDevices[selectedDevice]}
-                                onChange={this._onVoipDeviceChange}
-                                styles={selectStyle}
-                            />
-                        </div>
-                        <div className="middle-right">
-                            <h3>Voice activation threshold</h3>
-                            <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
-                        </div>
-                    </div>
+                <div className="tabs">
+                    <a className={this._isTabActive("game")} onClick={() => this.props.setSettingsTab("game")}>
+                        General settings
+                    </a>
+                    <a className={this._isTabActive("mods")} onClick={() => this.props.setSettingsTab("mods")}>
+                        Mod settings
+                    </a>
                 </div>
-                <h2>Mod settings</h2>
-                <div className="settings-container">
-                    <h3>Coming soon&trade;</h3>
+                <div className="tab-inner">
+                    {renderActiveTab()}
                 </div>
                 <div className="settings-buttons">
                     <a href="#" className="btn border-btn" onClick={this._onResetSettings}>Reset settings</a>
@@ -222,18 +242,78 @@ class Settings extends Component
         );
     }
 
+    _onChangeModInput = (settingKey, value) => {
+        this.props.setSettingValue(
+            this.props.settings.modSettings,
+            this.props.settings.selectedMod,
+            settingKey,
+            value
+        );
+    };
+
+    _onChangeModName = (e) =>
+    {
+        if (this.modListScrollbar) {
+            this.modListScrollbar.update();
+            this.modListScrollbar.element.scrollTop = 0;
+        }
+        this.setState({
+            modName: e.target.value,
+        });
+    };
+
+    _onSelectMod = (mod) =>
+    {
+        if (this.modSettingsScrollbar) {
+            this.modSettingsScrollbar.update();
+            this.modSettingsScrollbar.element.scrollTop = 0;
+        }
+        this.props.setSettingsSelectedMod(mod);
+        /*
+        this.setState({
+            modName: "",
+        });
+        */
+    };
+    
+    _onModList = (ref) =>
+    {
+        if (ref === null) {
+            this.modListScrollbar = null;
+            return;
+        }
+
+        this.modListScrollbar = new PerfectScrollbar(ref, {
+            wheelSpeed: 1,
+        });
+    };
+
+    _onModSettings = (ref) =>
+    {
+        if (ref === null) {
+            this.modSettingsScrollbar = null;
+            return;
+        }
+
+        this.modSettingsScrollbar = new PerfectScrollbar(ref, {
+            wheelSpeed: 3,
+        });
+    };
+
+    _isTabActive = (tab) =>
+    {
+        if (tab === this.props.settings.tab) {
+            return "tab active";
+        }
+        return "tab";
+    }
+
     _onApplySettings = (e) =>
     {
         if (e)
             e.preventDefault();
 
         WebUI.Call('ApplySettings', this.props.settings.currentSettings);
-
-        if (this.props.popup) {
-            this.props.hideSettingsPopup();
-        } else {
-            this.props.setPopup(<ApplySettingsPopup/>);
-        }
 
         // For mod settings:
         // WebUI.Call('SetModSettingBool', modName: string, settingName: string, value: boolean);
@@ -242,12 +322,72 @@ class Settings extends Component
         // WebUI.Call('SetModSettingMultiKeybind', modName: string, settingName: string, value: number[]);
         // WebUI.Call('SetModSettingString', modName: string, settingName: string, value: string);
         // WebUI.Call('SetModSettingOption', modName: string, settingName: string, value: string | null);
+
+        Object.entries(this.props.settings.modSettings).forEach((mod) => {
+            const modName = mod[0];
+            Object.entries(mod[1]).forEach((setting) => {
+                const settingName = setting[0];
+                const value = setting[1].currentValue;
+                if (value !== undefined) {
+                    switch (setting[1].type) {
+                        case BOOL:
+                            WebUI.Call('SetModSettingBool', modName, settingName, value);
+                            break;
+                        case NUMBER:
+                            WebUI.Call('SetModSettingNumber', modName, settingName, value);
+                            break;
+                        case KEYBIND:
+                            WebUI.Call('SetModSettingKeybind', modName, settingName, value);
+                            break;
+                        case MULTI_KEYBIND:
+                            WebUI.Call('SetModSettingMultiKeybind', modName, settingName, value); // TODO: Fixme
+                            break;
+                        case STRING:
+                            WebUI.Call('SetModSettingString', modName, settingName, value);
+                            break;
+                        case OPTION:
+                            WebUI.Call('SetModSettingOption', modName, settingName, value);
+                            break;
+                    }
+                }
+            });
+        });
+
+        if (this.props.popup) {
+            this.props.hideSettingsPopup();
+        } else {
+            this.props.setPopup(<ApplySettingsPopup/>);
+        }
     };
 
     _onResetSettings = (e) =>
     {
         if (e)
             e.preventDefault();
+
+        let settings = {
+            ...this.props.settings.modSettings,
+        };
+        Object.entries(this.props.settings.modSettings).forEach((mod) => {
+            const modName = mod[0];
+            Object.entries(mod[1]).forEach((setting) => {
+                const settingName = setting[0];
+                const value = setting[1].currentValue;
+                if (value !== undefined) {
+                    settings = {
+                        ...settings,
+                        [modName]: {
+                            ...settings[modName],
+                            [settingName]: {
+                                ...settings[modName][settingName],
+                                currentValue: undefined,
+                            },
+                        },
+                    };
+                }
+            });
+        });
+        this.props.setSettings(settings);
 
         WebUI.Call('RefreshSettings');
     };
@@ -265,31 +405,6 @@ class Settings extends Component
     _onScreenChange = (resolution) =>
     {
         this.props.setScreenIndex(resolution.value);
-    };
-
-    _onMasterVolumeChange = (volume) =>
-    {
-        this.props.setMasterVolume(volume);
-    };
-
-    _onMusicVolumeChange = (volume) =>
-    {
-        this.props.setMusicVolume(volume);
-    };
-
-    _onDialogueVolumeChange = (volume) =>
-    {
-        this.props.setDialogueVolume(volume);
-    };
-
-    _onVoipDeviceChange = (device) =>
-    {
-        WebUI.Call('VoipSelectDevice', device.value);
-    };
-
-    _onVoipCutoffVolumeChange = (volume) =>
-    {
-        WebUI.Call('VoipCutoffVolume', volume);
     };
 
     componentDidMount()
@@ -332,21 +447,34 @@ const mapDispatchToProps = (dispatch) => {
         setScreenIndex: (index) => {
             dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { selectedScreen: index } });
         },
-        setMasterVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { masterVolume: volume } });
-        },
-        setMusicVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { musicVolume: volume } });
-        },
-        setDialogueVolume: (volume) => {
-            dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { dialogueVolume: volume } });
-        },
         setFullscreen: (fullscreen) => {
             dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { fullscreen } });
         },
         hideSettingsPopup: () => {
             dispatch({ type: ActionTypes.SHOW_SETTINGS_POPUP, show: false });
-        }
+        },
+        setSettingsTab: (tab) => {
+            dispatch({ type: ActionTypes.SET_SETTINGS_TAB, tab: tab });
+        },
+        setSettingsSelectedMod: (selectedMod) => {
+            dispatch({ type: ActionTypes.SET_SETTINGS_SELECTED_MOD, selectedMod: selectedMod });
+        },
+        setSettingValue: (modSettings, selectedMod, settingKey, value) => {
+            let settings = {
+                ...modSettings,
+                [selectedMod]: {
+                    ...modSettings[selectedMod],
+                    [settingKey]: {
+                        ...modSettings[selectedMod][settingKey],
+                        currentValue: value,
+                    },
+                },
+            };
+            dispatch({ type: ActionTypes.SET_MOD_SETTINGS, settings: settings });
+        },
+        setSettings: (settings) => {
+            dispatch({ type: ActionTypes.SET_MOD_SETTINGS, settings: settings });
+        },
     };
 };
 

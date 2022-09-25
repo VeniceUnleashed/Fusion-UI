@@ -142,44 +142,43 @@ class ServerBrowser extends Component
         }
 
         const favoritesOnly = this.props.servers.favoriteServersOnly;
-
+       
         return (
             <div className="server-browser content-wrapper" ref="browser">
                 <div className="server-list">
                     <div className="list-header" ref="header">
                         <div className="column column-1">
-                            <div className="header-action">
+                            <div className="header-action" onClick={this.onFetchServers.bind(this)}>
                                 <span>{serverCountText}</span>
                                 <a href="#"
-                                   className={this.props.servers.fetchStatus === ServerFetchStatus.FETCHING ? 'fetching' : ''}
-                                   onClick={this.onFetchServers.bind(this)}>
+                                   className={this.props.servers.fetchStatus === ServerFetchStatus.FETCHING ? 'fetching' : ''}>
                                     <i className="material-icons">sync</i>
                                 </a>
                             </div>
-                            <div className={"header-action" + (this.state.filtersVisible ? ' active' : '')}>
-                                <span>Filters</span>
+                            <div id="filters_visible" className={"header-action" + (this.state.filtersVisible ? ' active' : '') + (this._hasFilterApplied() ? ' hasFilter' : '')}>
+                                <span onClick={this.onEditFilters.bind(this)}>Filters</span>
                                 <a href="#" onClick={this.onEditFilters.bind(this)}><i className="material-icons">filter_list</i></a>
                                 <ServerFilters visible={this.state.filtersVisible} onClose={this._onCloseFilters} />
                             </div>
-                            <div className={"header-action compact" + (compactView ? ' active' : '')}>
+                            <div className={"header-action compact" + (compactView ? ' active' : '')} onClick={this.onToggleCompactView.bind(this)}>
                                 <span>Compact view</span>
-                                <a href="#" onClick={this.onToggleCompactView.bind(this)}><i className="material-icons">{compactView ? 'toggle_on' : 'toggle_off'}</i></a>
+                                <a href="#"><i className="material-icons">{compactView ? 'toggle_on' : 'toggle_off'}</i></a>
                             </div>
-                            <div className={"header-action compact" + (favoritesOnly ? ' active' : '')}>
+                            <div className={"header-action compact" + (favoritesOnly ? ' active' : '')} onClick={this.onToggleFavoritesOnly.bind(this)}>
                                 <span>Favorites</span>
-                                <a href="#" onClick={this.onToggleFavoritesOnly.bind(this)}><i className="material-icons">{favoritesOnly ? 'toggle_on' : 'toggle_off'}</i></a>
+                                <a href="#"><i className="material-icons">{favoritesOnly ? 'toggle_on' : 'toggle_off'}</i></a>
                             </div>
                         </div>
-                        <div className="column column-2" onClick={this._onSortByMap}>
+                        <div className="column column-2 sort-action" onClick={this._onSortByMap}>
                             <i className="sort-indicator"/><span>Map</span><i className="sort-indicator material-icons">{mapSort}</i>
                         </div>
-                        <div className="column column-3" onClick={this._onSortByGamemode}>
+                        <div className="column column-3 sort-action" onClick={this._onSortByGamemode}>
                             <i className="sort-indicator"/><span>Gamemode</span><i className="sort-indicator material-icons">{gamemodeSort}</i>
                         </div>
-                        <div className="column column-4" onClick={this._onSortByPlayers}>
+                        <div className="column column-4 sort-action" onClick={this._onSortByPlayers}>
                             <i className="sort-indicator"/><span>Players</span><i className="sort-indicator material-icons">{playersSort}</i>
                         </div>
-                        <div className="column column-5" onClick={this._onSortByPing}>
+                        <div className="column column-5 sort-action" onClick={this._onSortByPing}>
                             <i className="sort-indicator"/><span>Ping</span><i className="sort-indicator material-icons">{pingSort}</i>
                         </div>
                     </div>
@@ -189,6 +188,13 @@ class ServerBrowser extends Component
                 </div>
             </div>
         );
+    }
+
+    _hasFilterApplied = () => {
+        if (this.props.filters === null) 
+            return false;
+
+        return JSON.stringify(this.props.filters) !== JSON.stringify(ServerFilters.getDefaultFilters());
     }
 
     _onCloseFilters = () =>
@@ -291,6 +297,7 @@ class ServerBrowser extends Component
         this.props.enableMenu();
 
         window.addEventListener('resize', this._onResize);
+        window.addEventListener('click', this._onHandleClickOutsideOfFiltersBox);
         this._onResize();
 
         // Fetch servers on page mount.
@@ -300,6 +307,7 @@ class ServerBrowser extends Component
     componentWillUnmount()
     {
         window.removeEventListener('resize', this._onResize);
+        window.removeEventListener('click', this._onHandleClickOutsideOfFiltersBox);
     }
 
     _onResize = () =>
@@ -319,6 +327,23 @@ class ServerBrowser extends Component
             height: requiredHeight,
         });
     };
+
+    _onHandleClickOutsideOfFiltersBox = (e) => {
+        if (!this.state.filtersVisible)
+            return;
+
+        let clickedInside = false;
+        for (const element of e.path) {
+            if (element.classList && (element.classList.contains('server-filters') || element.id === 'filters_visible')) {
+                clickedInside = true;
+                break;
+            }
+        }
+
+        if (!clickedInside) {
+            this.setState({ filtersVisible: false });
+        }
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -326,6 +351,7 @@ const mapStateToProps = (state) => {
         base: state.base,
         servers: state.servers,
         user: state.user,
+        filters: state.servers.filters,
     };
 };
 
