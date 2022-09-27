@@ -53,6 +53,7 @@ export default function user(state = initialState, action)
                 return {
                     ...initialState,
                     loginToken: state.loginToken,
+                    loginData: state.loginData,
                 };
             }
 
