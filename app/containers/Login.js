@@ -63,7 +63,14 @@ class Login extends Component
         this.props.enableBlur();
         this.props.disableMenu();
 
-        if (this.props.user.loginToken !== null)
+        if (this.props.user.loginData !== null)
+        {
+            this.props.onSetLogin();
+            this.props.setPopup(<LoginPopup />);
+
+            WebUI.Call('Login', this.props.user.loginData.username, this.props.user.loginData.password, false);
+        }
+        else if (this.props.user.loginToken !== null)
         {
             this.props.onSetLogin();
             this.props.setPopup(<LoginPopup />);
