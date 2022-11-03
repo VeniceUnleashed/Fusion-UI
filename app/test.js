@@ -453,6 +453,27 @@ DispatchAction(actions.SET_SERVERS, {
                 vext_req: "1.2.3",
             }
         },
+        {
+            guid: "N9",
+            name: "Explorer 99",
+            players: 12,
+            maxplayers: 128,
+            public: true,
+            passworded: true,
+            ping: 123,
+            variables: {
+                maxplayers: 128,
+                mapname: "Levels/XP3_Desert/XP3_Desert",
+                gamemode: "ConquestLarge0",
+                frequency: "reg",
+                maxspectators: 12,
+                spectators: "0",
+                buildno: "12345",
+                min_buildno: "12345",
+                vext_req: "1.2.3",
+                fps: 30
+            }
+        },
     ]
 });
 
