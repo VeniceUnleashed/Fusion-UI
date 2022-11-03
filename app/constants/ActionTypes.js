@@ -56,3 +56,4 @@ export const REMOVE_FAVORITE_SERVER = 57;
 export const TOGGLE_FAVORITE_SERVERS_ONLY = 58;
 export const SET_SETTINGS_TAB = 59;
 export const SET_SETTINGS_SELECTED_MOD = 60;
+export const SET_LOGIN_DATA = 61;
