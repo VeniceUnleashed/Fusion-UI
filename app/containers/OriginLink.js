@@ -7,14 +7,14 @@ class OriginLink extends Component
 {
     render()
     {
-        let originState = 'Waiting for Origin...';
+        let originState = 'Waiting for Origin / EA Desktop...';
         let canRetry = false;
         let spinning = false;
 
         switch (this.props.user.originLinkStatus)
         {
             case OriginLinkStatus.IDLE:
-                originState = 'Waiting for Origin...';
+                originState = 'Waiting for Origin / EA Desktop...';
                 spinning = true;
                 break;
 
@@ -43,7 +43,7 @@ class OriginLink extends Component
                 break;
 
             case OriginLinkStatus.LINK_TAKEN:
-                originState = 'This Origin Account is already linked to another account';
+                originState = 'This EA Account is already linked to another account';
                 canRetry = true;
                 break;
 
@@ -53,7 +53,7 @@ class OriginLink extends Component
                 break;
 
             case OriginLinkStatus.ORIGIN_ERROR:
-                originState = 'An error occurred while communicating with Origin';
+                originState = 'An error occurred while communicating with Origin / EA Desktop';
                 canRetry = true;
                 break;
         }
@@ -64,7 +64,7 @@ class OriginLink extends Component
             <div id="origin-link-page">
                 <div className="middle-container">
                     <h1>Ownership Verification</h1>
-                    <p>In order to use {this.props.base.productName} we will first need to verify your game ownership through your Origin account. Please launch the Origin client on your computer and log in with your account. This is a one-time process and will link your Origin account with your Venice Unleashed account.</p>
+                    <p>In order to use {this.props.base.productName} we will first need to verify your game ownership through your EA account. Please launch the EA Desktop app or the Origin client on your computer and log in with your account. This is a one-time process and will link your EA account with your Venice Unleashed account.</p>
                     <div className="status-container">
                         <img src="/assets/img/common/origin.svg" className={spinning ? 'spinning' : ''} />
                         <h2>{originState}</h2>
