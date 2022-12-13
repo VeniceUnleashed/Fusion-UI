@@ -1,3 +1,5 @@
+import { hashHistory } from 'react-router'
+
 DispatchAction(actions.CHANGE_CONNECTION_STATUS, { status: connStatus.CONNECTING });
 DispatchAction(actions.SET_PRODUCT_NAME, { name: "Venice Unleashed" });
 DispatchAction(actions.SET_PRODUCT_CODE, { code: "VU" });

@@ -11,6 +11,7 @@ const config = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'static/bundle.js',
+        hashFunction: 'xxhash64',
     },
     plugins: [],
     module: {
@@ -24,10 +25,6 @@ const config = {
             {
                 test: /(\.scss|\.css)$/,
                 use: [ 'style-loader', 'css-loader', 'sass-loader' ],
-            },
-            {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                use: [ 'file-loader' ],
             },
             {
                 test: /\.json$/,
@@ -71,9 +68,15 @@ module.exports = (env, argv) => {
     } else {
         config.devServer = {
             hot: true,
+            static: {
+                directory: path.join(__dirname, 'assets'),
+                publicPath: '/assets',
+            },
         };
+
+        console.log(config.devServer.static);
         
-        config.devtool = 'cheap-module-eval-source-map';
+        config.devtool = 'eval-cheap-module-source-map';
 
         config.plugins.push(new HtmlWebpackHarddiskPlugin());
         config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
