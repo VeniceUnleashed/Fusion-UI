@@ -109,6 +109,24 @@ class ServerEntry extends Component
         ) !== null)
             return;
 
+        let fps = null;
+
+        if ('fps' in this.props.server.variables) {
+            fps = parseInt(this.props.server.variables.fps, 10);
+
+            if (isNaN(fps)) {
+                fps = null;
+            }
+        }
+
+        if ((this.props.server.variables.frequency === 'high60' && fps !== null && fps <= 66) ||
+            (this.props.server.variables.frequency === 'high120' && fps !== null && fps <= 132) ||
+            (this.props.server.variables.frequency === 'reg' && fps !== null && fps <= 33))
+        {
+            this.props.setPopup(<ServerPerformancePopup server={this.props.server} onJoin={this.props.onSpectate} />);
+            return;
+        }
+
         if (this.props.server.passworded)
         {
             this.props.setPopup(<ServerPasswordPopup server={this.props.server} onJoin={this.props.onSpectate} />);
