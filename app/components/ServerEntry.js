@@ -5,37 +5,31 @@ import ServerPasswordPopup from "../popups/ServerPasswordPopup";
 import ServerPerformancePopup from "../popups/ServerPerformancePopup";
 import { getServerPlayersOnly, getServerSpectators } from '../utils/servers';
 
-class ServerEntry extends Component
-{
-    constructor(props)
-    {
+class ServerEntry extends Component {
+    constructor(props) {
         super(props);
 
         this.hasClicked = false;
         this.clickTimeout = null;
     }
 
-    _onClick = (e) =>
-    {
+    _onClick = (e) => {
         if (e)
             e.preventDefault();
 
-        if (this.clickTimeout)
-        {
+        if (this.clickTimeout) {
             clearTimeout(this.clickTimeout);
             this.clickTimeout = null;
         }
 
-        if (this.hasClicked)
-        {
+        if (this.hasClicked) {
             this.hasClicked = false;
             this._onJoin(e);
             return;
         }
 
         this.hasClicked = true;
-        this.clickTimeout = setTimeout(() =>
-        {
+        this.clickTimeout = setTimeout(() => {
             this.clickTimeout = null;
             this.hasClicked = false;
         }, 350);
@@ -44,8 +38,7 @@ class ServerEntry extends Component
             this.props.onClick(this.props.server.guid);
     };
 
-    _onJoin = (e) =>
-    {
+    _onJoin = (e) => {
         if (e)
             e.preventDefault();
 
@@ -70,14 +63,12 @@ class ServerEntry extends Component
 
         if ((this.props.server.variables.frequency === 'high60' && fps !== null && fps <= 66) ||
             (this.props.server.variables.frequency === 'high120' && fps !== null && fps <= 132) ||
-            (this.props.server.variables.frequency === 'reg' && fps !== null && fps <= 33))
-        {
+            (this.props.server.variables.frequency === 'reg' && fps !== null && fps <= 33)) {
             this.props.setPopup(<ServerPerformancePopup server={this.props.server} onJoin={this.props.onJoin} />);
             return;
         }
 
-        if (this.props.server.passworded)
-        {
+        if (this.props.server.passworded) {
             this.props.setPopup(<ServerPasswordPopup server={this.props.server} onJoin={this.props.onJoin} />);
             return;
         }
@@ -86,8 +77,7 @@ class ServerEntry extends Component
             this.props.onJoin(this.props.server.guid);
     };
 
-    _onAddRemoveFavorite = (e) =>
-    {
+    _onAddRemoveFavorite = (e) => {
         if (e)
             e.preventDefault();
 
@@ -95,8 +85,7 @@ class ServerEntry extends Component
             this.props.onAddRemoveFavorite(this.props.server, this.props.isFavorite);
     };
 
-    _onSpectate = (e) =>
-    {
+    _onSpectate = (e) => {
         if (e)
             e.preventDefault();
 
@@ -121,14 +110,12 @@ class ServerEntry extends Component
 
         if ((this.props.server.variables.frequency === 'high60' && fps !== null && fps <= 66) ||
             (this.props.server.variables.frequency === 'high120' && fps !== null && fps <= 132) ||
-            (this.props.server.variables.frequency === 'reg' && fps !== null && fps <= 33))
-        {
+            (this.props.server.variables.frequency === 'reg' && fps !== null && fps <= 33)) {
             this.props.setPopup(<ServerPerformancePopup server={this.props.server} onJoin={this.props.onSpectate} />);
             return;
         }
 
-        if (this.props.server.passworded)
-        {
+        if (this.props.server.passworded) {
             this.props.setPopup(<ServerPasswordPopup server={this.props.server} onJoin={this.props.onSpectate} />);
             return;
         }
@@ -137,8 +124,7 @@ class ServerEntry extends Component
             this.props.onSpectate(this.props.server.guid);
     };
 
-    render()
-    {
+    render() {
         const server = this.props.server;
 
         let serverClassName = 'server-entry';
@@ -167,13 +153,11 @@ class ServerEntry extends Component
 
         const style = {};
 
-        if (server.variables.banner && (server.variables.banner.startsWith('http://') || server.variables.banner.startsWith('https://')) && server.variables.banner.endsWith('.jpg'))
-        {
+        if (server.variables.banner && (server.variables.banner.startsWith('http://') || server.variables.banner.startsWith('https://')) && server.variables.banner.endsWith('.jpg')) {
             style.background = "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%,rgba(0,0,0,0.3) 65%,rgba(0,0,0,0.8) 100%), url(" + server.variables.banner + ") no-repeat top center";
             style.backgroundSize = '100% auto';
         }
-        else if (ServerEntry.hasMapImage(server.variables.mapname))
-        {
+        else if (ServerEntry.hasMapImage(server.variables.mapname)) {
             style.background = "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%,rgba(0,0,0,0.3) 65%,rgba(0,0,0,0.8) 100%), url('/assets/img/maps/" + ServerEntry.getLevelName(server.variables.mapname) + ".png') no-repeat top center";
             style.backgroundSize = '100% auto';
         }
@@ -186,16 +170,14 @@ class ServerEntry extends Component
         let spectatorPlayerCount = null;
         let spectateButton = null;
 
-        if (parseInt(server.variables.maxspectators, 10) > 0)
-        {
+        if (parseInt(server.variables.maxspectators, 10) > 0) {
             spectatorPlayerCount = <h4>{spectatorCount} / {server.variables.maxspectators}</h4>;
             spectateButton = <a href="#" onClick={this._onSpectate} className="btn border-btn spec-btn"><i className="material-icons">videocam</i> Spec</a>;
         }
 
         const serverIcons = [];
 
-        if (server.passworded)
-        {
+        if (server.passworded) {
             serverIcons.push(<span className="server-icon locked" key="locked"><i className="material-icons">lock</i></span>);
         }
 
@@ -209,8 +191,7 @@ class ServerEntry extends Component
             }
         }
 
-        if (server.variables.frequency === 'high60')
-        {
+        if (server.variables.frequency === 'high60') {
             if (fps !== null && fps <= 66) {
                 serverIcons.push(<span className="server-icon lag" key="lag"><i className="material-icons">hourglass_disabled</i></span>);
 
@@ -221,8 +202,7 @@ class ServerEntry extends Component
 
             serverIcons.push(<span className="server-icon freq" key="freq"><i className="material-icons">speed</i> 60Hz</span>);
         }
-        else if (server.variables.frequency === 'high120')
-        {
+        else if (server.variables.frequency === 'high120') {
             if (fps !== null && fps <= 132) {
                 serverIcons.push(<span className="server-icon lag" key="lag"><i className="material-icons">hourglass_disabled</i></span>);
 
@@ -233,8 +213,7 @@ class ServerEntry extends Component
 
             serverIcons.push(<span className="server-icon freq" key="freq"><i className="material-icons">speed</i> 120Hz</span>);
         }
-        else
-        {
+        else {
             if (fps !== null && fps <= 33) {
                 serverIcons.push(<span className="server-icon lag" key="lag"><i className="material-icons">hourglass_disabled</i></span>);
 
@@ -251,8 +230,7 @@ class ServerEntry extends Component
 
         const tags = [];
 
-        for (const tag of new Set(serverTags))
-        {
+        for (const tag of new Set(serverTags)) {
             if (!/^[a-z0-9-]+$/.test(tag))
                 continue;
 
@@ -263,8 +241,7 @@ class ServerEntry extends Component
         let serverInfo = [];
         let onlyTags = false;
 
-        if (tags.length > 0)
-        {
+        if (tags.length > 0) {
             tags.splice(tags.length - 1, 1);
 
             serverInfo.push(
@@ -335,8 +312,7 @@ class ServerEntry extends Component
      * returns an appropriate error message or `null` if compatible.
      * @returns {string|null}
      */
-    static checkServerCompatibility(server, availableXPacks, minServerBuild, build, vextVersion)
-    {
+    static checkServerCompatibility(server, availableXPacks, minServerBuild, build, vextVersion) {
         if (!ServerEntry.isMapAvailable(server, availableXPacks))
             return "This server is running a map you do not currently have installed.";
 
@@ -355,8 +331,7 @@ class ServerEntry extends Component
         return null;
     }
 
-    static isMapAvailable(server, availableXPacks)
-    {
+    static isMapAvailable(server, availableXPacks) {
         // Try to extract the XPack from the map.
         const mapname = server.variables.mapname;
 
@@ -371,8 +346,7 @@ class ServerEntry extends Component
         return availableXPacks.indexOf(xpack) !== -1;
     }
 
-    static areXPacksAvailable(server, availableXPacks)
-    {
+    static areXPacksAvailable(server, availableXPacks) {
         // Try to extract the XPack from the map.
         const xpacks = server.variables.xpacks;
 
@@ -381,8 +355,7 @@ class ServerEntry extends Component
         if (xpacks && xpacks.length > 0)
             xpackList = xpacks.split(',').map((val) => parseInt(val, 10));
 
-        for (const xpack of xpackList)
-        {
+        for (const xpack of xpackList) {
             if (isNaN(xpack))
                 continue;
 
@@ -393,24 +366,21 @@ class ServerEntry extends Component
         return true;
     }
 
-    static isServerBuildOlder(server, minServerBuild)
-    {
+    static isServerBuildOlder(server, minServerBuild) {
         const minimumServerBuild = parseInt(minServerBuild, 10);
         const currentServerBuild = parseInt(server.variables.buildno, 10);
 
         return currentServerBuild < minimumServerBuild;
     }
 
-    static isServerBuildNewer(server, build)
-    {
+    static isServerBuildNewer(server, build) {
         const currentBuild = parseInt(build, 10);
         const requiredServerBuild = parseInt(server.variables.min_buildno, 10);
 
         return currentBuild < requiredServerBuild;
     }
 
-    static isVextCompatible(server, vextVersion)
-    {
+    static isVextCompatible(server, vextVersion) {
         const currentVextParts = vextVersion.split('.');
         const serverVextParts = server.variables.vext_req.split('.');
 
@@ -452,8 +422,7 @@ class ServerEntry extends Component
         return true;
     }
 
-    static getMaps()
-    {
+    static getMaps() {
         return [
             "Levels/MP_001/MP_001",
             "Levels/MP_003/MP_003",
@@ -484,11 +453,29 @@ class ServerEntry extends Component
             "Levels/XP5_002/XP5_002",
             "Levels/XP5_003/XP5_003",
             "Levels/XP5_004/XP5_004",
+            "Levels/COOP_002/COOP_002",
+            "Levels/COOP_003/COOP_003",
+            "Levels/COOP_006/COOP_006",
+            "Levels/COOP_007/COOP_007",
+            "Levels/COOP_009/COOP_009",
+            "Levels/COOP_010/COOP_010",
+            "Levels/SP_Bank/SP_Bank",
+            "Levels/SP_Earthquake/SP_Earthquake",
+            "Levels/SP_Earthquake2/SP_Earthquake2",
+            "Levels/SP_Finale/SP_Finale",
+            "Levels/SP_Interrogation/SP_Interrogation",
+            "Levels/SP_Jet/SP_Jet",
+            "Levels/SP_New_York/SP_New_York",
+            "Levels/SP_Paris/SP_Paris",
+            "Levels/SP_Sniper/SP_Sniper",
+            "Levels/SP_Tank/SP_Tank",
+            "Levels/SP_Tank_b/SP_Tank_b",
+            "Levels/SP_Valley/SP_Valley",
+            "Levels/SP_Villa/SP_Villa",
         ];
     }
 
-    static getGamemodes()
-    {
+    static getGamemodes() {
         return [
             'ConquestLarge0',
             'ConquestSmall0',
@@ -506,13 +493,12 @@ class ServerEntry extends Component
             'Scavenger0',
             'TankSuperiority0',
             'Domination0',
+            'KingOfTheHill0',
         ];
     }
 
-    static hasMapImage(map)
-    {
-        switch (map)
-        {
+    static hasMapImage(map) {
+        switch (map) {
             case "Levels/MP_001/MP_001":
             case "Levels/MP_003/MP_003":
             case "Levels/MP_007/MP_007":
@@ -542,22 +528,38 @@ class ServerEntry extends Component
             case "Levels/XP5_002/XP5_002":
             case "Levels/XP5_003/XP5_003":
             case "Levels/XP5_004/XP5_004":
+            case "Levels/COOP_002/COOP_002":
+            case "Levels/COOP_003/COOP_003":
+            case "Levels/COOP_006/COOP_006":
+            case "Levels/COOP_007/COOP_007":
+            case "Levels/COOP_009/COOP_009":
+            case "Levels/COOP_010/COOP_010":
+            case "Levels/SP_Bank/SP_Bank":
+            case "Levels/SP_Earthquake/SP_Earthquake":
+            case "Levels/SP_Earthquake2/SP_Earthquake2":
+            case "Levels/SP_Finale/SP_Finale":
+            case "Levels/SP_Interrogation/SP_Interrogation":
+            case "Levels/SP_Jet/SP_Jet":
+            case "Levels/SP_New_York/SP_New_York":
+            case "Levels/SP_Paris/SP_Paris":
+            case "Levels/SP_Sniper/SP_Sniper":
+            case "Levels/SP_Tank/SP_Tank":
+            case "Levels/SP_Tank_b/SP_Tank_b":
+            case "Levels/SP_Valley/SP_Valley":
+            case "Levels/SP_Villa/SP_Villa":
                 return true;
             default:
                 return false;
         }
     }
 
-    static getLevelName(map)
-    {
+    static getLevelName(map) {
         let tokens = map.split('/');
         return tokens[tokens.length - 1];
     }
 
-    static getMapName(map)
-    {
-        switch (map)
-        {
+    static getMapName(map) {
+        switch (map) {
             case "Levels/MP_001/MP_001":
                 return "Grand Bazaar";
             case "Levels/MP_003/MP_003":
@@ -616,16 +618,53 @@ class ServerEntry extends Component
                 return "Kiasar Railroad";
             case "Levels/XP5_004/XP5_004":
                 return "Sabalan Pipeline";
+            case "Levels/COOP_002/COOP_002":
+                return "Hit and Run";
+            case "Levels/COOP_003/COOP_003":
+                return "Drop 'Em Like Liquid";
+            case "Levels/COOP_006/COOP_006":
+                return "Fire from the Sky";
+            case "Levels/COOP_007/COOP_007":
+                return "Operation Exodus";
+            case "Levels/COOP_009/COOP_009":
+                return "Exfiltration";
+            case "Levels/COOP_010/COOP_010":
+                return "The Eleventh Hour";
+            case "Levels/SP_Bank/SP_Bank":
+                return "Operation Guillotine";
+            case "Levels/SP_Earthquake/SP_Earthquake":
+                return "Operation Swordbreaker";
+            case "Levels/SP_Earthquake2/SP_Earthquake2":
+                return "Uprising";
+            case "Levels/SP_Finale/SP_Finale":
+                return "The Great Destroyer";
+            case "Levels/SP_Interrogation/SP_Interrogation":
+                return "Intro";
+            case "Levels/SP_Jet/SP_Jet":
+                return "Going Hunting";
+            case "Levels/SP_New_York/SP_New_York":
+                return "Semper Fidelis";
+            case "Levels/SP_Paris/SP_Paris":
+                return "Comrades";
+            case "Levels/SP_Sniper/SP_Sniper":
+                return "Night Shift";
+            case "Levels/SP_Tank/SP_Tank":
+                return "Thunder Run";
+            case "Levels/SP_Tank_b/SP_Tank_b":
+                return "Fear No Evil";
+            case "Levels/SP_Valley/SP_Valley":
+                return "Rock and a Hard Place";
+            case "Levels/SP_Villa/SP_Villa":
+                return "Kaffarov's Villa";
+
             default:
                 let tokens = map.split('/');
                 return tokens[tokens.length - 1];
         }
     }
 
-    static getGamemodeName(gamemode)
-    {
-        switch (gamemode)
-        {
+    static getGamemodeName(gamemode) {
+        switch (gamemode) {
             case 'ConquestLarge0':
                 return 'Conquest Large';
             case 'ConquestSmall0':
@@ -658,6 +697,8 @@ class ServerEntry extends Component
                 return 'Tank Superiority';
             case 'Domination0':
                 return 'Conquest Domination';
+            case 'KingOfTheHill0':
+                return 'King Of The Hill';
             default:
                 return gamemode;
         }
