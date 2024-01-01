@@ -699,6 +699,9 @@ class ServerEntry extends Component {
                 return 'Conquest Domination';
             case 'KingOfTheHill0':
                 return 'King Of The Hill';
+            case 'HeliSuperiority0':
+                return 'Heli Superiority';
+                
             default:
                 return gamemode;
         }
