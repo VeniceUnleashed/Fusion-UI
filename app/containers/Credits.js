@@ -46,6 +46,7 @@ class Credits extends Component
                         <h3>Turntabliss</h3>
                         <h3>txt</h3>
                         <h3>XuluniX</h3>
+                        <h3>slorgs</h3>
 
                         <h2>Third Party Software</h2>
                         <h3>
