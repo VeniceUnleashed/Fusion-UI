@@ -62,6 +62,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closePopup: () => {
             dispatch({ type: ActionTypes.SET_POPUP, popup: null })
+        },
+        setPopup: (popup) => {
+            dispatch({ type: ActionTypes.SET_POPUP, popup: popup })
         }
     };
 };
