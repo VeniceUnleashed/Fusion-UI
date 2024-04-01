@@ -60,7 +60,7 @@ class AudioSettings extends Component
                     <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
                 </div>
                 <div className="settings-row">
-                    <h3>VOIP Volume Multiplier</h3>
+                    <h3>Volume</h3>
                     <NumberInput
                         value={this.props.voip.volumeMultiplier}
                         onChange={this._onVoipVolumeMultiplierChange}
