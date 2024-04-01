@@ -7,7 +7,6 @@ const initialState = {
     selectedDevice: 0,
     cutoffVolume: 0.5,
     volume: 0,
-    volumeMultiplier: 1.0,
 };
 
 export default function voip(state = initialState, action)
