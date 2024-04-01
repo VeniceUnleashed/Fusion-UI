@@ -699,7 +699,10 @@ class ServerEntry extends Component {
                 return 'Conquest Domination';
                 
             default:
-                return gamemode;
+                return gamemode
+                    .replace(/([a-z])([A-Z])/g, "$1 $2") // Add a space before capital letters following a lowercase letter
+                    .replace(/0$/, "") // Remove trailing 0
+                    .replace(/([1-9]\d*)$/, " #$1"); // Parse 1 and greater numbers to "#n" format;
         }
     }
 }
