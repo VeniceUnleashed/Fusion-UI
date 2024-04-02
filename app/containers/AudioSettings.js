@@ -6,6 +6,7 @@ import * as ActionTypes from "../constants/ActionTypes";
 import { SELECT_STYLE } from "../constants/Styles";
 import VoipSlider from "../components/VoipSlider";
 import Slider from "../components/Slider";
+import NumberInput from "../components/inputs/NumberInput";
 
 class AudioSettings extends Component
 {
@@ -58,6 +59,15 @@ class AudioSettings extends Component
                     <h3>Voice activation threshold</h3>
                     <VoipSlider onChange={this._onVoipCutoffVolumeChange} volume={this.props.voip.volume} value={this.props.voip.cutoffVolume} />
                 </div>
+                <div className="settings-row">
+                    <h3>Volume</h3>
+                    <NumberInput
+                        value={this.props.voip.volumeMultiplier}
+                        onChange={this._onVoipVolumeMultiplierChange}
+                        min={0.0}
+                        max={5.0}
+                    />
+                </div>
             </>
         );
     }
@@ -86,6 +96,12 @@ class AudioSettings extends Component
     {
         WebUI.Call('VoipCutoffVolume', volume);
     };
+
+    _onVoipVolumeMultiplierChange = (volume) =>
+    {
+        WebUI.Call('VoipVolumeMultiplier', volume);
+        this.props.setVoipVolumeMultiplier(volume);
+    };
 };
 
 const mapStateToProps = (state) => {
@@ -105,6 +121,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setDialogueVolume: (volume) => {
             dispatch({ type: ActionTypes.SET_CURRENT_SETTINGS, settings: { dialogueVolume: volume } });
+        },
+        setVoipVolumeMultiplier: (volume) => {
+            dispatch({ type: ActionTypes.SET_VOIP_DATA, data: { volumeMultiplier: volume } });
         },
     };
 };
