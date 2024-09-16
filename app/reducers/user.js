@@ -168,6 +168,15 @@ export default function user(state = initialState, action)
                     hashHistory.push('/main-menu');
                 }, 50);
             }
+            else if(finalState.loginStatus === LoginStatus.LOGGED_IN &&
+                finalState.playerLoginStatus === PlayerLoginStatus.LOGGED_OUT &&
+                finalState.user !== null &&
+                finalState.players !== null)
+            {
+                setTimeout(function() {
+                    hashHistory.push('/players');
+                }, 50);
+            }
 
             return finalState;
         }
