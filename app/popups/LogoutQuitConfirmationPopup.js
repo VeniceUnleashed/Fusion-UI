@@ -12,6 +12,7 @@ class LogoutQuitConfirmationPopup extends Component
                     <h1>Logout & Quit</h1>
                     <p>Are you sure you want to log out and quit?</p>
                     <a href="#" className="btn border-btn" onClick={this.onClosePopup.bind(this)}>Cancel</a>
+                    <a href="#" className="btn border-btn primary" onClick={this.onSwitchSoldier.bind(this)}>Switch Soldier</a>
                     <a href="#" className="btn border-btn primary" onClick={this.onConfirmQuit.bind(this)}>Logout & Quit</a>
                 </div>
             </div>
@@ -25,6 +26,15 @@ class LogoutQuitConfirmationPopup extends Component
 
         this.props.closePopup();
         WebUI.Call('LogoutQuit');
+    }
+
+    onSwitchSoldier(e)
+    {
+        if (e)
+            e.preventDefault();
+
+        this.props.closePopup();
+        WebUI.Call('LogoutPlayer');
     }
 
     onClosePopup(e)
