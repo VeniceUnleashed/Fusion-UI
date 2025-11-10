@@ -109,11 +109,11 @@ const GameConsole: React.FC = () => {
                 // Set the text.
                 if (_previous >= 0) {
                     // Save the typed text.
-                    if (previous === -1) {
+                    if (_previous === -1) {
                         setCurrentText(conRef.current.value);
                     }
 
-                    conRef.current.value = previousCommands[previous];
+                    conRef.current.value = previousCommands[_previous];
                 } else {
                     conRef.current.value = currentText;
                 }
@@ -147,13 +147,13 @@ const GameConsole: React.FC = () => {
                 else _previous -= 1;
 
                 // Set the text.
-                if (previous >= 0) {
+                if (_previous >= 0) {
                     // Save the typed text.
-                    if (previous === -1) {
+                    if (_previous === -1) {
                         setCurrentText(conRef.current.value);
                     }
 
-                    conRef.current.value = previousCommands[previous];
+                    conRef.current.value = previousCommands[_previous];
                 } else {
                     conRef.current.value = currentText;
                 }
@@ -203,7 +203,7 @@ const GameConsole: React.FC = () => {
                         addConsoleText(
                             '**WARNING** `UI.DrawEnable` is not writable from the console, which will also be hidden when the UI is not drawing. You can use *' +
                                 key +
-                                '* to toggle the game UI.'
+                                '* to toggle the game UI.',
                         );
 
                         // Clear the text.
@@ -312,7 +312,7 @@ const GameConsole: React.FC = () => {
                     }}
                 >
                     {suggestions[i].text} <strong>{suggestions[i].desc}</strong>
-                </li>
+                </li>,
             );
         }
 
