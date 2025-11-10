@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { ActionTypes } from '../constants/ActionTypes';
 interface State {
-    text: any;
+    text: Array<{ text: string; length: number }>;
     active: boolean;
     fullExpanded: boolean;
     suggestions: any;
@@ -11,6 +11,8 @@ interface State {
     //
     actions: { [key: number]: (action: any) => void };
 }
+
+const CONSOLE_TEXT_LIMIT = 1_000;
 
 const useConsoleStore = create<State>((set) => ({
     text: [],
@@ -22,7 +24,7 @@ const useConsoleStore = create<State>((set) => ({
     //
     actions: {
         [ActionTypes.TOGGLE_CONSOLE_ACTIVE]: () => {
-            set((state: any) => {
+            set((state) => {
                 if (!state.active) {
                     return {
                         suggestions: [],
@@ -53,9 +55,9 @@ const useConsoleStore = create<State>((set) => ({
             });
         },
         [ActionTypes.ADD_CONSOLE_TEXT]: (action: any) => {
-            set((state: any) => {
+            set((state) => {
                 let text = action.text.trim();
-                const finalStateText = [...state.text];
+                const finalStateText = state.text.splice(-CONSOLE_TEXT_LIMIT + 1);
 
                 if (text.startsWith('Unknown console command "')) {
                     let lastIndex = text.lastIndexOf('"');
@@ -201,7 +203,7 @@ const useConsoleStore = create<State>((set) => ({
             });
         },
         [ActionTypes.SET_CONSOLE_SUGGESTIONS]: (action: any) => {
-            set((state: any) => {
+            set((state) => {
                 if (!state.active) {
                     return {};
                 }
@@ -212,7 +214,7 @@ const useConsoleStore = create<State>((set) => ({
             });
         },
         [ActionTypes.EXECUTE_CONSOLE_COMMAND]: (action: any) => {
-            set((state: any) => {
+            set((state) => {
                 if (action.command.trim().length === 0) {
                     return {};
                 }
