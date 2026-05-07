@@ -104,20 +104,20 @@
     user-select: text;
     display: flex;
 
-    strong {
-        color: #da857b;
-        font-weight: 600;
+    span {
         user-select: text;
-    }
 
-    em {
-        color: #61d2ff;
-        user-select: text;
-    }
+        &.b {
+            color: #da857b;
+            font-weight: 600;
+        }
 
-    u {
-        color: #ffe835;
-        text-decoration: none;
-        user-select: text;
+        &.i {
+            color: #61d2ff;
+        }
+
+        &.u {
+            color: #ffe835;
+        }
     }
 }
