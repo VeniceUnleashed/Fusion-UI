@@ -20,7 +20,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         >
             <div className="input-wrapper-padding">
                 {props.startIcon}
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', width: '100%' }}>
                     <input {...props} ref={innerRef} />
                     {props.placeholder && !props.value ? (
                         <span className="input-wrapper-placeholder">{props.placeholder}</span>
