@@ -132,7 +132,7 @@
     &.empty {
         background: rgba(0, 0, 0, 0.6);
         transform: translate(0%, 0%);
-        backdrop-filter: blur(20rem);
+        backdrop-filter: blur(23px);
 
         &:before {
             display: none;
