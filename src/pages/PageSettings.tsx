@@ -471,31 +471,29 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
 
     const gpuSettingsRender = (
         <div className="general-settings">
-            {!popup ? (
-                <>
-                    <h2>GPU settings</h2>
-                    <div className="settings-row">
-                        <h3>Nvidia Shader Cache</h3>
-                        <Select
-                            options={enabledOrDisabledOptions}
-                            value={currentSettings.enableShaderCache === true}
-                            onChange={_onShaderCacheModeChange}
-                        />
-                    </div>
-                    <div className="settings-row">
-                        <h3>AMD Eyefinity</h3>
-                        <Select
-                            options={enabledOrDisabledOptions}
-                            value={currentSettings.enableEyefinity === true}
-                            onChange={_onEyefinityModeChange}
-                        />
-                    </div>
-                
-                    <div style={{fontSize: '1.5vmin', width: '60%', marginTop: '5%'}}>
-                        These options are disabled by default because they cause issues on certain computers due to driver bugs, so you should be careful when enabling them. Changes to these settings apply after restarting VU.
-                    </div>
-                </>
-            ) : null}
+            <h2>GPU settings</h2>
+            <div className="settings-row">
+                <h3>Nvidia Shader Cache</h3>
+                <Select
+                    options={enabledOrDisabledOptions}
+                    value={currentSettings.enableShaderCache === true}
+                    onChange={_onShaderCacheModeChange}
+                />
+            </div>
+            <div className="settings-row">
+                <h3>AMD Eyefinity</h3>
+                <Select
+                    options={enabledOrDisabledOptions}
+                    value={currentSettings.enableEyefinity === true}
+                    onChange={_onEyefinityModeChange}
+                />
+            </div>
+
+            <div style={{ fontSize: '1.5vmin', width: '60%', marginTop: '5%' }}>
+                These options are disabled by default because they cause issues on certain computers due to driver
+                bugs, so you should be careful when enabling them. Changes to these settings apply after restarting
+                VU.
+            </div>
         </div>
     );
 
