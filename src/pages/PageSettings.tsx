@@ -490,6 +490,10 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
                             onChange={_onEyefinityModeChange}
                         />
                     </div>
+                
+                    <div style={{fontSize: '1.5vmin', width: '60%', marginTop: '5%'}}>
+                        These options are disabled by default because they cause issues on certain computers due to driver bugs, so you should be careful when enabling them. Changes to these settings apply after restarting VU.
+                    </div>
                 </>
             ) : null}
         </div>
