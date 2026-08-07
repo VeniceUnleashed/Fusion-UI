@@ -22,6 +22,11 @@ const displayModeOptions = [
     { value: false, label: 'Windowed' },
 ];
 
+const enabledOrDisabledOptions = [
+    { value: true, label: 'Enabled' },
+    { value: false, label: 'Disabled' },
+];
+
 const PageSettings: React.FC<IProps> = ({ popup }) => {
     const modSettings = useSettingsStore((s) => s.modSettings);
     const selectedMod = useSettingsStore((s) => s.selectedMod);
@@ -67,6 +72,19 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
     const setFullscreen = (fullscreen: boolean) => {
         window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, {
             settings: { fullscreen },
+        });
+    };
+
+    const setShaderCache = (enabled: boolean) => {
+        window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, {
+            settings: { enableShaderCache: enabled },
+        });
+    };
+
+
+    const setEyefinity = (enabled: boolean) => {
+        window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, {
+            settings: { enableEyefinity: enabled },
         });
     };
 
@@ -232,6 +250,14 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
         setScreenIndex(value);
     };
 
+    const _onEyefinityModeChange = (value: any) => {
+        setEyefinity(value);
+    };
+
+    const _onShaderCacheModeChange = (value: any) => {
+        setShaderCache(value);
+    };
+
     useEffect(() => {
         window.WebUI.Call('RefreshSettings');
         window.WebUI.Call('SettingsActive');
@@ -346,6 +372,8 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
                 return gameSettingsRender;
             case 'mods':
                 return modSettingsRender;
+            case 'gpu':
+                return gpuSettingsRender;
         }
     };
 
@@ -359,6 +387,7 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
     for (let i = 0; i < currentSettings.screens; ++i) {
         screenOptions.push({ value: i, label: `Monitor #${i + 1}` });
     }
+
 
     const gameSettingsRender = (
         <div className="general-settings">
@@ -440,12 +469,41 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
         </div>
     );
 
+    const gpuSettingsRender = (
+        <div className="general-settings">
+            {!popup ? (
+                <>
+                    <h2>GPU settings</h2>
+                    <div className="settings-row">
+                        <h3>Nvidia Shader Cache</h3>
+                        <Select
+                            options={enabledOrDisabledOptions}
+                            value={currentSettings.enableShaderCache === true}
+                            onChange={_onShaderCacheModeChange}
+                        />
+                    </div>
+                    <div className="settings-row">
+                        <h3>AMD Eyefinity</h3>
+                        <Select
+                            options={enabledOrDisabledOptions}
+                            value={currentSettings.enableEyefinity === true}
+                            onChange={_onEyefinityModeChange}
+                        />
+                    </div>
+                </>
+            ) : null}
+        </div>
+    );
+
     return (
         <div className="settings content-wrapper">
             {popup ? <div style={{ marginTop: '120rem' }} /> : null}
             <div className="tabs">
                 <a className={_isTabActive('game')} onClick={() => setSettingsTab('game')}>
                     General settings
+                </a>
+                <a className={_isTabActive('gpu')} onClick={() => setSettingsTab('gpu')}>
+                    GPU settings
                 </a>
                 <a className={_isTabActive('mods')} onClick={() => setSettingsTab('mods')}>
                     Mod settings
