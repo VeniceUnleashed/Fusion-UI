@@ -48,7 +48,7 @@ export const SELECT_STYLE = {
     menu: (provided: any) => ({
         ...provided,
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        backdropFilter: 'blur(1.851851851851vh)',
+        backdropFilter: 'blur(14px)',
         willChange: 'top',
         borderRadius: 0,
         boxShadow: 'none',
