@@ -19,6 +19,9 @@ type State = {
     loginToken: null | any;
     loginData: null | any;
     accountStorage: any;
+    accountStorageLoaded: boolean;
+    autoLogin: boolean;
+    autoLoginAnySoldier: boolean;
     //
     actions: { [key: number]: (action: any) => void };
 };
@@ -35,6 +38,9 @@ const useUserStore = create<State>((set) => ({
     loginToken: null,
     loginData: null,
     accountStorage: {},
+    accountStorageLoaded: false,
+    autoLogin: false,
+    autoLoginAnySoldier: false,
     //
     actions: {
         [ActionTypes.CHANGE_CONNECTION_STATUS]: (action: any) => {
@@ -191,9 +197,16 @@ const useUserStore = create<State>((set) => ({
                 };
             });
         },
+        [ActionTypes.SET_AUTO_LOGIN]: (action: any) => {
+            set({
+                autoLogin: !!action.autoLogin,
+                autoLoginAnySoldier: !!action.anySoldier,
+            });
+        },
         [ActionTypes.SET_ACCOUNT_STORAGE]: (action: any) => {
             set({
                 accountStorage: { ...action.accountStorage },
+                accountStorageLoaded: true,
             });
         },
         [ActionTypes.SET_ACCOUNT_STORAGE_VALUE]: (action: any) => {

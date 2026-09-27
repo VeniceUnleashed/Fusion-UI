@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 
+import { PRIMARY_SOLDIER_GUID } from '../../constants/AccountStorageKeys';
 import { ActionTypes } from '../../constants/ActionTypes';
 import { PlayerDeleteStatus } from '../../constants/PlayerDeleteStatus';
+import useUserStore from '../../stores/useUserStore';
 import DeletingPlayerPopup from './DeletingPlayerPopup';
 
 interface IProps {
@@ -10,6 +12,8 @@ interface IProps {
 }
 
 const PlayerDeleteConfirmationPopup: React.FC<IProps> = ({ name, guid }) => {
+    const primaryGuid = useUserStore((s) => s.accountStorage[PRIMARY_SOLDIER_GUID]);
+
     const closePopup = () => {
         window.DispatchAction(ActionTypes.SET_POPUP, {
             popup: null,
@@ -30,6 +34,12 @@ const PlayerDeleteConfirmationPopup: React.FC<IProps> = ({ name, guid }) => {
 
     const onConfirmDeletion = (e?: any) => {
         if (e) e.preventDefault();
+
+        if (guid === primaryGuid) {
+            window.DispatchAction(ActionTypes.REMOVE_ACCOUNT_STORAGE_VALUE, {
+                key: PRIMARY_SOLDIER_GUID,
+            });
+        }
 
         setPopup(<DeletingPlayerPopup />);
         window.WebUI.Call('DeletePlayer', guid);
