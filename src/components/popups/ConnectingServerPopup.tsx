@@ -26,6 +26,23 @@ const ConnectingServerPopup: React.FC = () => {
         });
     };
 
+    // Aborts the join: drops the connection, stops any download and returns to
+    // the menu if the level load already started.
+    const onCancel = (e?: any) => {
+        if (e) e.preventDefault();
+
+        window.WebUI.Call('CancelConnect');
+
+        closePopup();
+        resetLogin();
+    };
+
+    const cancelButton = (
+        <a href="#" className="btn border-btn" onClick={onCancel}>
+            Cancel
+        </a>
+    );
+
     const onClosePopup = (e?: any) => {
         if (e) e.preventDefault();
 
@@ -194,6 +211,7 @@ const ConnectingServerPopup: React.FC = () => {
                     <h1>Connecting</h1>
                     <p>Please wait while we connect you to the Game Server...</p>
                     <LoadingIndicator />
+                    {cancelButton}
                 </div>
             </div>
         );
@@ -207,6 +225,7 @@ const ConnectingServerPopup: React.FC = () => {
                         <h1>Connecting</h1>
                         <p>Fetching list of files to download...</p>
                         <LoadingIndicator />
+                        {cancelButton}
                     </div>
                 </div>
             );
@@ -222,6 +241,7 @@ const ConnectingServerPopup: React.FC = () => {
                     <h1>Downloading</h1>
                     <p>{`Downloading file ${currFile} of ${totalFiles}. Download progress: ${progress}%`}</p>
                     <LoadingIndicator />
+                    {cancelButton}
                 </div>
             </div>
         );
@@ -240,6 +260,7 @@ const ConnectingServerPopup: React.FC = () => {
                 <h1>Connecting</h1>
                 <p>Please wait while we connect you to the Game Server...</p>
                 <LoadingIndicator />
+                {cancelButton}
             </div>
         </div>
     );
