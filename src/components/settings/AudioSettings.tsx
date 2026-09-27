@@ -9,9 +9,6 @@ import VoipSlider from './VoipSlider';
 
 const AudioSettings: React.FC = () => {
     const devices = useVoipStore((s) => s.devices);
-    const selectedDevice = useVoipStore((s) => s.selectedDevice);
-    const volumeMultiplier = useVoipStore((s) => s.volumeMultiplier);
-    const cutoffVolume = useVoipStore((s) => s.cutoffVolume);
     const volume = useVoipStore((s) => s.volume);
     const currentSettings = useSettingsStore((s) => s.currentSettings);
 
@@ -27,24 +24,23 @@ const AudioSettings: React.FC = () => {
         window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, { settings: { dialogueVolume: volume } });
     };
 
-    const setVoipVolumeMultiplier = (volume: number | number[]) => {
-        window.DispatchAction(ActionTypes.SET_VOIP_DATA, { data: { volumeMultiplier: volume } });
-    };
-
+    // Voip changes are previewed live so they can be heard, and saved or dropped with the other settings.
     const onVoipDeviceChange = (value: number) => {
         window.WebUI.Call('VoipSelectDevice', value);
+        window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, { settings: { voipDevice: value } });
     };
 
     const onVoipCutoffVolumeChange = (volume: number | number[]) => {
         window.WebUI.Call('VoipCutoffVolume', volume);
+        window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, { settings: { voipCutoffVolume: volume } });
     };
 
     // The slider's 0-100% maps to a multiplier of 0-5: voip is quiet, so full volume is 5x.
     const onVoipVolumeMultiplierChange = (fraction: number | number[]) => {
-        const volume = (fraction as number) * 5;
+        const volumeMultiplier = (fraction as number) * 5;
 
-        window.WebUI.Call('VoipVolumeMultiplier', volume);
-        setVoipVolumeMultiplier(volume);
+        window.WebUI.Call('VoipVolumeMultiplier', volumeMultiplier);
+        window.DispatchAction(ActionTypes.SET_CURRENT_SETTINGS, { settings: { voipVolumeMultiplier: volumeMultiplier } });
     };
 
     const voipDevicesMemo: Array<{ value: number; label: string }> = useMemo(() => {
@@ -56,8 +52,8 @@ const AudioSettings: React.FC = () => {
 
     const selectedDeviceIndexMemo: number = useMemo(() => {
         if (devices.length === 0) return -1; // I don't think we need this one
-        return selectedDevice;
-    }, [devices, selectedDevice]);
+        return currentSettings.voipDevice;
+    }, [devices, currentSettings.voipDevice]);
 
     return (
         <>
@@ -88,11 +84,11 @@ const AudioSettings: React.FC = () => {
             </div>
             <div className="settings-row">
                 <h3>Voice activation threshold</h3>
-                <VoipSlider onChange={onVoipCutoffVolumeChange} volume={volume} value={cutoffVolume} />
+                <VoipSlider onChange={onVoipCutoffVolumeChange} volume={volume} value={currentSettings.voipCutoffVolume} />
             </div>
             <div className="settings-row">
                 <h3>Volume</h3>
-                <NumberInput value={volumeMultiplier / 5} onChange={onVoipVolumeMultiplierChange} />
+                <NumberInput value={currentSettings.voipVolumeMultiplier / 5} onChange={onVoipVolumeMultiplierChange} />
             </div>
         </>
     );
