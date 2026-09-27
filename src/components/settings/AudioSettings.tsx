@@ -39,7 +39,10 @@ const AudioSettings: React.FC = () => {
         window.WebUI.Call('VoipCutoffVolume', volume);
     };
 
-    const onVoipVolumeMultiplierChange = (volume: number | number[]) => {
+    // The slider's 0-100% maps to a multiplier of 0-5: voip is quiet, so full volume is 5x.
+    const onVoipVolumeMultiplierChange = (fraction: number | number[]) => {
+        const volume = (fraction as number) * 5;
+
         window.WebUI.Call('VoipVolumeMultiplier', volume);
         setVoipVolumeMultiplier(volume);
     };
@@ -89,7 +92,7 @@ const AudioSettings: React.FC = () => {
             </div>
             <div className="settings-row">
                 <h3>Volume</h3>
-                <NumberInput value={volumeMultiplier} onChange={onVoipVolumeMultiplierChange} min={0.0} max={5.0} />
+                <NumberInput value={volumeMultiplier / 5} onChange={onVoipVolumeMultiplierChange} />
             </div>
         </>
     );
