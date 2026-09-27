@@ -516,7 +516,7 @@ const PageSettings: React.FC<IProps> = ({ popup }) => {
             <div className="tab-inner">{renderActiveTab()}</div>
             <div className="settings-buttons">
                 <a href="#" className="btn border-btn" onClick={_onResetSettings}>
-                    Reset settings
+                    Revert settings
                 </a>
                 <a href="#" className="btn border-btn primary" onClick={_onApplySettings}>
                     Apply settings
